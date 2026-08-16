@@ -1,0 +1,36 @@
+
+<div class="reward-fullscreen" *ngIf="rewardAd.isWatching" role="dialog" aria-modal="true" aria-label="Rewarded video">
+  <div class="reward-video-shell">
+    <header class="reward-video-header">
+      <div>
+        <span class="ad-badge">REWARDED VIDEO</span>
+        <strong>{{title}}</strong>
+      </div>
+      <button class="video-close" aria-label="Close video" (click)="cancelRewardedAd()"><ion-icon name="close"></ion-icon></button>
+    </header>
+
+    <div class="video-frame">
+      <video #rewardVideo
+        class="reward-video"
+        src="assets/rewarded-ad.mp4"
+        autoplay
+        playsinline
+        preload="auto"
+        (timeupdate)="onVideoTimeUpdate($event)"
+        (ended)="onVideoEnded()"></video>
+      <div class="video-overlay">
+        <span class="video-brand">TIC <b>RUSH</b></span>
+        <span class="video-reward">{{rewardLabel}}</span>
+      </div>
+    </div>
+
+    <div class="video-progress">
+      <span [style.width.%]="rewardAd.progress"></span>
+    </div>
+    <div class="video-meta">
+      <span>{{rewardAd.secondsRemaining}}s remaining</span>
+      <span>Complete the video to claim your reward</span>
+    </div>
+    <button class="video-cancel" (click)="cancelRewardedAd()">Close without reward</button>
+  </div>
+</div>

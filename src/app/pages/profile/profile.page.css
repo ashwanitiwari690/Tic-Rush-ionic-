@@ -1,0 +1,124 @@
+:host {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.profile {
+    padding-top: 22px
+}
+
+.identity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px
+}
+
+.avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 2px solid var(--cyan);
+    display: grid;
+    place-items: center;
+    color: var(--cyan);
+    font-size: 42px;
+    background: #102252
+}
+
+.name {
+    font-size: 24px;
+    font-weight: 850;
+        color: #ffff;
+}
+
+.level {
+    font-size: 11px;
+    color: var(--cyan);
+    font-weight: 900;
+    margin: 4px 0
+}
+
+.xp {
+    height: 8px;
+    background: #1a2c5a;
+    border-radius: 99px;
+    overflow: hidden;
+    margin: 8px 0
+}
+
+.xp span {
+    display: block;
+    width: 42%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), #7655ff)
+}
+
+.identity small {
+    color: var(--muted);
+    font-size: 11px
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px
+}
+
+.stat-grid .card {
+    text-align: center;
+    padding: 16px
+}
+
+.stat-grid b {
+    display: block;
+    font-size: 24px;
+        color: #ffff;
+}
+
+.stat-grid span {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #9baad0;
+    font-weight: 900
+}
+
+.wallet {
+    margin-top: 12px;
+    padding: 18px
+}
+
+.wallet-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.wallet-head span {
+    display: block;
+    color: #98a8d2;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.2px
+}
+
+.wallet-head strong {
+    display: block;
+    font-size: 28px;
+    color: #ffd85c;
+    margin-top: 4px
+}
+
+.wallet-head>ion-icon {
+    font-size: 35px;
+    color: var(--cyan)
+}
+
+.wallet p {
+    font-size: 12px;
+    margin-bottom: 0;
+    color: #a2a5ae;
+}
+

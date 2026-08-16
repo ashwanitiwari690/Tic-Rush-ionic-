@@ -1,0 +1,78 @@
+<ion-content [fullscreen]="true">
+  <main class="page shop-page">
+    <header class="shop-topbar">
+      <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <div class="shop-title">
+        <span class="eyebrow">CUSTOMIZE YOUR MATCH</span>
+        <h1>SYMBOL SHOP</h1>
+      </div>
+      <div class="shop-wallet">🪙 {{game.coins}}</div>
+    </header>
+
+    <section class="shop-hero card">
+      <div class="hero-icon"><ion-icon name="bag-handle-outline"></ion-icon></div>
+      <div>
+        <h2>Upgrade your X &amp; O</h2>
+        <p>Buy a style with coins, or watch a quick rewarded video to unlock it for free.</p>
+      </div>
+    </section>
+
+    <section class="theme-grid">
+      <article class="theme-card card"
+        *ngFor="let theme of game.themes"
+        [class.selected]="game.selectedThemeId === theme.id"
+        [class.locked]="!game.isThemeOwned(theme.id)">
+        <div class="theme-preview" [ngClass]="theme.className">
+          <span>{{theme.x}}</span><span>{{theme.o}}</span>
+        </div>
+
+        <div class="theme-info">
+          <div>
+            <h3>{{theme.name}}</h3>
+            <small *ngIf="game.selectedThemeId === theme.id" class="status equipped">
+              <ion-icon name="checkmark-circle"></ion-icon> EQUIPPED
+            </small>
+            <small *ngIf="game.selectedThemeId !== theme.id && game.isThemeOwned(theme.id)" class="status">
+              OWNED • TAP TO EQUIP
+            </small>
+            <small *ngIf="!game.isThemeOwned(theme.id)" class="status">
+              <ion-icon name="lock-closed"></ion-icon> {{theme.price}} COINS
+            </small>
+          </div>
+
+          <button class="theme-action" *ngIf="game.isThemeOwned(theme.id)" (click)="buyTheme(theme.id)">
+            {{game.selectedThemeId === theme.id ? 'EQUIPPED' : 'EQUIP'}}
+          </button>
+
+          <div class="theme-unlock" *ngIf="!game.isThemeOwned(theme.id)">
+            <button class="theme-watch"
+              [disabled]="!rewardAd.canWatch"
+              (click)="watchAdForTheme(theme.id)">
+              <ion-icon name="play-circle"></ion-icon>
+              <span *ngIf="rewardAd.nativeAdInFlight">LOADING…</span>
+              <span *ngIf="!rewardAd.nativeAdInFlight && rewardAd.canWatch">WATCH AD</span>
+              <span *ngIf="!rewardAd.nativeAdInFlight && !rewardAd.canWatch">{{ formatCooldown() }}</span>
+            </button>
+            <button class="theme-action"
+              [disabled]="!isAffordable(theme.id)"
+              (click)="buyTheme(theme.id)">
+              BUY • {{theme.price}}
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="shop-tip card">
+      <strong>🏆 Earn more coins</strong>
+      <p>Win against the computer for 10 coins, complete a rewarded video for 100 coins, or watch a video right here to unlock a style for free.</p>
+    </section>
+  </main>
+
+  <app-rewarded-video-overlay
+    title="WATCH TO UNLOCK THIS STYLE"
+    rewardLabel="🔓 UNLOCK"
+    (completed)="onAdCompleted()"></app-rewarded-video-overlay>
+</ion-content>

@@ -1,0 +1,29 @@
+<ion-content [fullscreen]="true">
+    <main class="page profile">
+        <div class="topbar"><button class="icon-btn" [disabled]="navigating" (click)="back()"><ion-icon
+                    name="arrow-back"></ion-icon></button>
+            <div class="title">PROFILE</div><span></span>
+        </div>
+        <div class="identity card">
+            <div class="avatar"><ion-icon name="person-circle-outline"></ion-icon></div>
+            <div>
+                <div class="name">Player One</div>
+                <div class="level">LEVEL {{game.level}}</div>
+                <div class="xp"><span></span></div><small>Keep winning against the computer to level up.</small>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="card"><b>{{game.stats.wins}}</b><span>WINS</span></div>
+            <div class="card"><b>{{game.stats.games}}</b><span>GAMES</span></div>
+            <div class="card"><b>{{accuracy}}%</b><span>ACCURACY</span></div>
+            <div class="card"><b>{{game.stats.bestLevel}}</b><span>BEST LEVEL</span></div>
+        </div>
+        <section class="wallet card">
+            <div class="wallet-head">
+                <div><span>COIN WALLET</span><strong>🪙 {{game.coins}}</strong></div><ion-icon
+                    name="wallet-outline"></ion-icon>
+            </div>
+            <p>Earn 10 coins for every computer win. Team games never add coins.</p>
+        </section>
+    </main>
+</ion-content>

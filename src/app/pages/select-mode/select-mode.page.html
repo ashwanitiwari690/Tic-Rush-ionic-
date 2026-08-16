@@ -1,0 +1,40 @@
+
+<ion-content [fullscreen]="true">
+<main class="page select-mode">
+  <div class="topbar">
+    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()"><ion-icon name="arrow-back"></ion-icon></button>
+    <div class="title">SELECT MODE</div>
+    <span></span>
+  </div>
+
+  <section class="hero card">
+    <div class="hero-title"><span class="pulse-dot"></span><span>CHOOSE YOUR BATTLE</span></div>
+    <h2>Ready for a quick win?</h2>
+    <p>Beat the computer to earn <b>10 coins</b> and level up. Play together with a friend for free.</p>
+
+    <div class="mode-grid">
+      <button class="mode computer" [disabled]="navigating" (click)="go('computer')">
+        <div class="mode-top"><div class="mode-icon"><ion-icon name="hardware-chip-outline"></ion-icon></div><span class="reward">+10 🪙</span></div>
+        <strong>VS COMPUTER</strong><small>Challenge the AI • Coins on wins</small>
+        <span class="play-label">CHOOSE BOARD <ion-icon name="arrow-forward-circle"></ion-icon></span>
+      </button>
+
+      <button class="mode team" [disabled]="navigating" (click)="go('team')">
+        <div class="mode-top"><div class="mode-icon"><ion-icon name="people-outline"></ion-icon></div><span class="reward free">FREE</span></div>
+        <strong>2 PLAYER TEAM</strong><small>Pass & play • No coins</small>
+        <span class="play-label">CHOOSE BOARD <ion-icon name="arrow-forward-circle"></ion-icon></span>
+      </button>
+    </div>
+
+    <button class="mode survival" [disabled]="navigating" (click)="go('survival')">
+      <div class="mode-top">
+        <div class="mode-icon"><ion-icon name="flame"></ion-icon></div>
+        <span class="streak-pill">STREAK: {{game.survivalStreak}}</span>
+      </div>
+      <strong>SURVIVAL LADDER</strong>
+      <small>Win streak vs the AI • Board gets harder as you climb • One loss ends it</small>
+      <span class="play-label">START RUN <ion-icon name="arrow-forward-circle"></ion-icon></span>
+    </button>
+  </section>
+</main>
+</ion-content>

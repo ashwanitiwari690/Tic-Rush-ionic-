@@ -1,0 +1,30 @@
+:host { display: contents; }
+
+.ad-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(32, 224, 255, .1);
+  color: #48eaff;
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 1px;
+}
+
+.reward-fullscreen { position: fixed; inset: 0; z-index: 9999; background: #020616; display: flex; align-items: center; justify-content: center; overflow: hidden }
+.reward-video-shell { width: 100%; height: 100%; display: flex; flex-direction: column; background: radial-gradient(circle at 50% 20%, #172d67 0, #070e27 52%, #020616 100%); padding: 16px max(16px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)) }
+.reward-video-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding-top: max(4px, env(safe-area-inset-top)); }
+.reward-video-header strong { display: block; color: #fff; font-size: 12px; margin-top: 6px; letter-spacing: .2px }
+.video-close { width: 42px; height: 42px; border-radius: 13px; border: 1px solid #405fa4; background: #12234d; color: #fff; display: grid; place-items: center; font-size: 20px }
+.video-frame { position: relative; flex: 1; min-height: 0; margin: 14px 0; border-radius: 20px; overflow: hidden; border: 1px solid #4163ae; background: #050a20; box-shadow: 0 20px 60px rgba(0, 0, 0, .45); display: flex; align-items: center; justify-content: center }
+.reward-video { width: 100%; height: 100%; object-fit: cover; background: #050a20 }
+.video-overlay { position: absolute; left: 18px; right: 18px; bottom: 18px; display: flex; justify-content: space-between; align-items: center; pointer-events: none }
+.video-brand { font-size: 22px; font-weight: 1000; color: #20e0ff; text-shadow: 0 0 18px rgba(32, 224, 255, .5) }
+.video-brand b { color: #fff }
+.video-reward { padding: 8px 11px; border-radius: 999px; background: rgba(4, 10, 30, .75); border: 1px solid rgba(255, 216, 91, .45); color: #ffd85b; font-size: 11px; font-weight: 950; backdrop-filter: blur(6px) }
+.video-progress { height: 6px; border-radius: 99px; background: #17264b; overflow: hidden }
+.video-progress span { display: block; height: 100%; background: linear-gradient(90deg, #20e0ff, #7b5cff); transition: width .2s linear }
+.video-meta { display: flex; justify-content: space-between; gap: 12px; color: #8ea4d0; font-size: 9px; margin-top: 8px }
+.video-cancel { margin-top: 12px; padding: 12px; border: 0; background: transparent; color: #93a7d0; font-size: 10px; font-weight: 800 }
+@media(min-width:700px) { .reward-video-shell { max-width: 560px; border-left: 1px solid #243e7a; border-right: 1px solid #243e7a } .reward-fullscreen { background: rgba(1, 4, 16, .96) } }

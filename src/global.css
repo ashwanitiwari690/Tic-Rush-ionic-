@@ -1,0 +1,61 @@
+
+:root{
+  --bg:#050a20;--bg2:#091331;--panel:#111f4b;--panel2:#182b63;
+  --cyan:#20e0ff;--blue:#527cff;--purple:#7958ff;--text:#f7f9ff;
+  --muted:#9caed8;--gold:#ffd45a;--danger:#ff6485;--green:#55e6b0;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;min-height:100%;background:var(--bg);color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  overscroll-behavior:none}
+body{overflow-x:hidden}
+ion-app,ion-content{--background:var(--bg);background:var(--bg)}
+ion-content{height:100%;--overflow:auto;scrollbar-width:none}
+ion-content::part(scroll){scrollbar-width:none;-ms-overflow-style:none}
+ion-content::part(scroll)::-webkit-scrollbar{display:none;width:0;height:0}
+*{scrollbar-width:none}
+*::-webkit-scrollbar{width:0;height:0;display:none}
+button{font:inherit}
+.page{
+  width:100%;max-width:520px;min-height:100%;
+  margin:0 auto;padding:18px 16px 28px;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(32,224,255,.13),transparent 28%),
+    radial-gradient(circle at 100% 65%,rgba(121,88,255,.14),transparent 34%),
+    linear-gradient(145deg,#060b24,#091333);
+}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.title{font-size:25px;font-weight:950;letter-spacing:-.8px;background:linear-gradient(90deg,var(--cyan),#7083ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.icon-btn{width:44px;height:44px;flex:none;border:1px solid #4261a8;border-radius:14px;
+  background:#14234e;color:#fff;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.card{background:linear-gradient(145deg,rgba(25,42,91,.98),rgba(12,23,59,.98));
+  border:1px solid #3e5ea8;border-radius:22px;box-shadow:0 12px 28px rgba(0,0,0,.2)}
+.eyebrow{color:var(--cyan);font-size:10px;font-weight:950;letter-spacing:1.7px}
+.muted{color:var(--muted)}
+@media(min-width:700px){
+  body{background:#020617}
+  .page{min-height:100vh;box-shadow:0 0 80px rgba(0,0,0,.35)}
+}
+
+button:disabled{cursor:default} .mode:disabled{opacity:.75} .icon-btn:disabled{opacity:.7}
+
+
+/* Stable Angular router host: use the standard Angular outlet instead of
+   Ionic's stacked router outlet to avoid blank routed views on client navigation. */
+html, body, app-root, ion-app {
+  width: 100%;
+  height: 100%;
+}
+app-root {
+  display: block;
+  min-height: 100%;
+}
+ion-app {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+router-outlet {
+  display: contents;
+}

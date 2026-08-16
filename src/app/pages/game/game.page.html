@@ -1,0 +1,84 @@
+
+<ion-content [fullscreen]="true">
+<main class="page game-page">
+  <header class="topbar">
+    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()"><ion-icon name="arrow-back"></ion-icon></button>
+    <div class="title">TIC RUSH</div>
+    <button class="icon-btn" aria-label="Sound" (click)="toggleSound()"><ion-icon [name]="audio.sound?'volume-high':'volume-mute'"></ion-icon></button>
+  </header>
+
+  <div class="mode-line">
+    <div>
+      <span class="eyebrow">{{game.mode==='computer'?'VS COMPUTER':game.mode==='team'?'2 PLAYER TEAM':game.mode==='survival'?'SURVIVAL LADDER':'DAILY CHALLENGE'}}</span>
+      <h1 *ngIf="game.mode==='computer' || game.mode==='team'">LEVEL {{game.level}}</h1>
+      <h1 *ngIf="game.mode==='survival'">STREAK {{game.survivalStreak}}</h1>
+      <h1 *ngIf="game.mode==='daily'">DAY {{game.dailyStreak + 1}}</h1>
+    </div>
+    <div class="coin-pill">🪙 {{game.coins}}</div>
+  </div>
+
+  <section class="players">
+    <div class="player-card" [class.active]="game.current==='X' && !game.winner">
+      <span class="mark x {{game.selectedTheme.className}}">{{game.selectedTheme.x}}</span><div><strong>PLAYER 1</strong><small>{{game.mode==='team'?'X PLAYER':'YOU'}}</small></div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="player-card" [class.active]="game.current==='O' && !game.winner">
+      <span class="mark o {{game.selectedTheme.className}}">{{game.selectedTheme.o}}</span><div><strong>{{game.mode==='team'?'PLAYER 2':'AI'}}</strong><small>{{game.mode==='team'?'O PLAYER':game.difficulty.toUpperCase()}}</small></div>
+    </div>
+  </section>
+
+  <section class="turn card" [class.finished]="!!game.winner">
+    <ng-container *ngIf="!game.winner">
+      <span class="turn-dot"></span>
+      {{game.busy ? 'AI is thinking…' : game.mode==='team' ? (game.current==='X' ? 'Player 1 turn' : 'Player 2 turn') : 'Your turn'}}
+    </ng-container>
+    <ng-container *ngIf="game.winner">
+      <strong *ngIf="game.winner==='X'">🎉 {{game.mode==='team' ? 'PLAYER 1 WINS' : 'YOU WIN!'}} <b *ngIf="game.mode==='computer'">+10 COINS</b></strong>
+      <strong *ngIf="game.winner==='O'">⚡ {{game.mode==='team' ? 'PLAYER 2 WINS' : 'AI WINS'}}</strong>
+      <strong *ngIf="game.winner==='draw'">🤝 PERFECT DRAW</strong>
+    </ng-container>
+  </section>
+
+  <section class="board-wrap">
+    <div class="board" [class.locked]="game.busy || !!game.winner">
+      <button *ngFor="let cell of game.board; let i=index"
+        class="cell" [class.x]="cell==='X'" [class.o]="cell==='O'" [class.theme-classic]="game.selectedTheme.id==='classic'" [class.theme-bolt]="game.selectedTheme.id==='bolt'" [class.theme-gem]="game.selectedTheme.id==='gem'" [class.theme-flame]="game.selectedTheme.id==='flame'" [class.theme-royal]="game.selectedTheme.id==='royal'" [class.last]="i===game.lastMove" [class.winning]="game.winningLine.includes(i)"
+        [attr.aria-label]="'Cell '+(i+1)" (click)="move(i)">
+        <span *ngIf="cell">{{cell === 'X' ? game.selectedTheme.x : game.selectedTheme.o}}</span>
+      </button>
+      <div *ngIf="game.winningLine.length" class="win-line"
+        [class.row-1]="game.winningLineType === 'row-1'"
+        [class.row-2]="game.winningLineType === 'row-2'"
+        [class.row-3]="game.winningLineType === 'row-3'"
+        [class.col-1]="game.winningLineType === 'col-1'"
+        [class.col-2]="game.winningLineType === 'col-2'"
+        [class.col-3]="game.winningLineType === 'col-3'"
+        [class.diag-main]="game.winningLineType === 'diag-main'"
+        [class.diag-cross]="game.winningLineType === 'diag-cross'"></div>
+    </div>
+  </section>
+
+  <div class="reward-banner" *ngIf="!game.winner && game.mode==='computer'">
+    <span>🏆</span><div><strong>WIN THE ROUND</strong><small>Beat the AI and earn <b>10 coins</b></small></div>
+  </div>
+  <div class="reward-banner team-banner" *ngIf="!game.winner && game.mode==='team'">
+    <span>👥</span><div><strong>FRIEND MATCH</strong><small>Pass the phone after every move • No coins</small></div>
+  </div>
+  <div class="reward-banner survival-banner" *ngIf="!game.winner && game.mode==='survival'">
+    <span>🔥</span><div><strong>STREAK {{game.survivalStreak}}</strong><small>{{game.difficulty | uppercase}} AI • Win to climb • One loss ends the run</small></div>
+  </div>
+  <div class="reward-banner daily-banner" *ngIf="!game.winner && game.mode==='daily'">
+    <span>📅</span><div><strong>WIN TODAY'S BOARD</strong><small>Beat the AI and earn <b>+25 coins</b></small></div>
+  </div>
+
+  <section class="result card" *ngIf="game.winner">
+    <div class="result-badge">{{game.winner==='X'?'🏆':game.winner==='draw'?'🤝':'⚡'}}</div>
+    <div class="result-copy"><strong>{{resultTitle()}}</strong><small>{{resultSubtitle()}}</small></div>
+    <button class="again" (click)="reset()">{{resultButtonLabel()}}</button>
+  </section>
+
+  <button class="switch" *ngIf="game.mode==='computer' || game.mode==='team'" (click)="switchMode()">SWITCH MODE</button>
+  <button class="switch" *ngIf="game.mode==='survival'" [disabled]="navigating" (click)="endRun()">END RUN</button>
+  <button class="switch" *ngIf="game.mode==='daily'" [disabled]="navigating" (click)="back()">BACK TO HOME</button>
+</main>
+</ion-content>

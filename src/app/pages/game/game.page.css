@@ -1,0 +1,480 @@
+:host {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.game-page {
+    padding-top: 14px
+}
+
+.mode-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2px 2px 13px
+}
+
+.mode-line h1 {
+    margin: 5px 0 0;
+    font-size: 25px;
+    color: #fff
+}
+
+.coin-pill {
+    padding: 8px 11px;
+    border: 1px solid #4969b0;
+    border-radius: 999px;
+    background: #111f49;
+    color: #ffd85b;
+    font-size: 12px;
+    font-weight: 950
+}
+
+.players {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px
+}
+
+.player-card {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid #304d8c;
+    border-radius: 15px;
+    background: #0d193b;
+    opacity: .72
+}
+
+.player-card.active {
+    opacity: 1;
+    border-color: #3cdbf0;
+    box-shadow: 0 0 18px rgba(32, 224, 255, .12)
+}
+
+.player-card .mark {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 1000
+}
+
+.mark.x {
+    color: var(--cyan);
+    background: rgba(32, 224, 255, .1)
+}
+
+.mark.o {
+    color: #ad98ff;
+    background: rgba(121, 88, 255, .14)
+}
+
+.player-card strong,
+.player-card small {
+    display: block
+}
+
+.player-card strong {
+    font-size: 10px;
+    color: #fff;
+}
+
+.player-card small {
+    font-size: 8px;
+    color: #8fa4d2;
+    margin-top: 2px
+}
+
+.vs {
+    font-size: 8px;
+    color: #7086b9;
+    font-weight: 950
+}
+
+.turn {
+    padding: 11px 12px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 850;
+    margin-bottom: 13px;
+    color: #dce6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px
+}
+
+.turn.finished {
+    border-color: #3cdbf0
+}
+
+.turn-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+    margin-right: 7px
+}
+
+.turn b {
+    color: #ffe06a;
+    margin-left: 5px
+}
+
+.board-wrap {
+    padding: 7px;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #172b62, #0b1738);
+    border: 1px solid #4968af;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, .28)
+}
+
+.board {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px
+}
+
+.cell {
+    aspect-ratio: 1;
+    border: 1px solid #334f91;
+    border-radius: 17px;
+    background: linear-gradient(145deg, #16295c, #0d1839);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: clamp(48px, 17vw, 72px);
+    font-weight: 1000;
+    line-height: 1;
+    box-shadow: inset 0 0 20px rgba(65, 99, 187, .08);
+    transition: transform .1s, background .15s, border-color .15s
+}
+
+.cell:active {
+    transform: scale(.95)
+}
+
+.cell.x {
+    color: var(--cyan);
+    text-shadow: 0 0 24px rgba(32, 224, 255, .5)
+}
+
+.cell.o {
+    color: #ac98ff;
+    text-shadow: 0 0 24px rgba(121, 88, 255, .5)
+}
+
+.cell.last {
+    border-color: #64e8ff;
+    background: linear-gradient(145deg, #1a356e, #10204b)
+}
+
+.locked .cell {
+    cursor: default
+}
+
+.reward-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 11px 13px;
+    border: 1px solid rgba(255, 210, 80, .3);
+    border-radius: 15px;
+    background: rgba(255, 210, 80, .06)
+}
+
+.reward-banner>span {
+    font-size: 22px
+}
+
+.reward-banner strong,
+.reward-banner small {
+    display: block
+}
+
+.reward-banner strong {
+    font-size: 10px;
+    color: #ffe071
+}
+
+.reward-banner small {
+    font-size: 9px;
+    color: #99acd4;
+    margin-top: 2px
+}
+
+.reward-banner small b {
+    color: #fff
+}
+
+.team-banner {
+    border-color: rgba(121, 88, 255, .4);
+    background: rgba(121, 88, 255, .07)
+}
+
+.team-banner strong {
+    color: #b8a8ff
+}
+
+.survival-banner {
+    border-color: rgba(255, 140, 70, .4);
+    background: rgba(255, 140, 70, .07)
+}
+
+.survival-banner strong {
+    color: #ff9d5c
+}
+
+.daily-banner {
+    border-color: rgba(255, 184, 77, .35);
+    background: rgba(255, 184, 77, .07)
+}
+
+.daily-banner strong {
+    color: #ffcf8a
+}
+
+.result {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 12px;
+    padding: 11px
+}
+
+.result-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: #172b62;
+    font-size: 20px
+}
+
+.result-copy {
+    flex: 1
+}
+
+.result-copy strong,
+.result-copy small {
+    display: block
+}
+
+.result-copy strong {
+    font-size: 12px;
+    color: #ffff;
+}
+
+.result-copy small {
+    font-size: 8px;
+    color: #91a6d2;
+    margin-top: 2px
+}
+
+.again {
+    border: 0;
+    border-radius: 11px;
+    padding: 10px;
+    background: linear-gradient(100deg, #20dff3, #5d72ff);
+    color: #000000;
+    font-size: 10px;
+    font-weight: 950
+}
+
+.switch {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #304d8e;
+    border-radius: 12px;
+    background: #0b1533;
+    color: #aebfe4;
+    font-size: 9px;
+    font-weight: 900
+}
+
+@media(min-width:440px) {
+    .cell {
+        font-size: 68px
+    }
+}
+
+/* Symbol skins */
+.mark.theme-bolt,
+.cell.theme-bolt.x {
+    color: #43efff;
+    text-shadow: 0 0 24px rgba(67, 239, 255, .72);
+}
+
+.mark.theme-bolt.o,
+.cell.theme-bolt.o {
+    color: #a78bfa;
+    text-shadow: 0 0 24px rgba(167, 139, 250, .72);
+}
+
+.mark.theme-gem,
+.cell.theme-gem.x {
+    color: #6dffcb;
+    text-shadow: 0 0 24px rgba(109, 255, 203, .7);
+}
+
+.mark.theme-gem.o,
+.cell.theme-gem.o {
+    color: #ff78d1;
+    text-shadow: 0 0 24px rgba(255, 120, 209, .65);
+}
+
+.mark.theme-flame,
+.cell.theme-flame.x {
+    color: #ffb347;
+    text-shadow: 0 0 26px rgba(255, 112, 50, .7);
+}
+
+.mark.theme-flame.o,
+.cell.theme-flame.o {
+    color: #ff6f91;
+    text-shadow: 0 0 26px rgba(255, 80, 130, .65);
+}
+
+.mark.theme-royal,
+.cell.theme-royal.x {
+    color: #f7d774;
+    text-shadow: 0 0 26px rgba(247, 215, 116, .7);
+}
+
+.mark.theme-royal.o,
+.cell.theme-royal.o {
+    color: #bca7ff;
+    text-shadow: 0 0 26px rgba(188, 167, 255, .7);
+}
+
+.cell.theme-bolt,
+.cell.theme-gem,
+.cell.theme-flame,
+.cell.theme-royal {
+    font-size: clamp(44px, 16vw, 70px);
+}
+
+/* Clear winning-line indicator: stays over the three winning cells so the result is obvious at a glance. */
+.cell.winning {
+    border-color: #63edff;
+    box-shadow: inset 0 0 24px rgba(32, 224, 255, .16), 0 0 12px rgba(32, 224, 255, .12);
+}
+
+.win-line {
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ff3f58, #ffcf4a, #20e0ff);
+    box-shadow: 0 0 8px rgba(255, 72, 91, .75), 0 0 18px rgba(32, 224, 255, .45);
+    height: 6px;
+    width: 84%;
+    left: 8%;
+    top: 50%;
+    animation: winLineIn .28s ease-out both;
+}
+
+.win-line.row-1 {
+    top: 16.666%
+}
+
+.win-line.row-2 {
+    top: 50%
+}
+
+.win-line.row-3 {
+    top: 83.333%
+}
+
+.win-line.col-1,
+.win-line.col-2,
+.win-line.col-3 {
+    width: 6px;
+    height: 84%;
+    left: auto;
+    top: 8%
+}
+
+.win-line.col-1 {
+    left: 16.666%
+}
+
+.win-line.col-2 {
+    left: 50%
+}
+
+.win-line.col-3 {
+    left: 83.333%
+}
+
+.win-line.diag-main {
+    transform: rotate(45deg)
+}
+
+.win-line.diag-cross {
+    transform: rotate(-45deg)
+}
+
+@keyframes winLineIn {
+    from {
+        opacity: 0;
+        transform: scaleX(.2)
+    }
+
+    to {
+        opacity: 1;
+        transform: scaleX(1)
+    }
+}
+
+.win-line.diag-main,
+.win-line.diag-cross {
+    animation: winDiagIn .32s ease-out both
+}
+
+@keyframes winDiagIn {
+    from {
+        opacity: 0;
+        transform: scale(.2) rotate(45deg)
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(45deg)
+    }
+}
+
+.win-line.diag-cross {
+    animation-name: winCrossIn
+}
+
+@keyframes winCrossIn {
+    from {
+        opacity: 0;
+        transform: scale(.2) rotate(-45deg)
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(-45deg)
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .win-line {
+        animation: none
+    }
+}

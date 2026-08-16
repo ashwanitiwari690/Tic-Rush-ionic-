@@ -1,0 +1,78 @@
+<ion-content [fullscreen]="true">
+  <main class="page home">
+    <header class="home-head">
+      <div>
+        <div class="eyebrow">⚡ BRAIN GAME • FAST MATCHES</div>
+        <h1>TIC <span>RUSH</span></h1>
+        <p>Quick rounds. Smart moves. Bigger rewards.</p>
+      </div>
+      <button class="icon-btn" aria-label="Settings" [disabled]="navigating" (click)="open('/settings')"><ion-icon
+          name="settings-outline"></ion-icon></button>
+    </header>
+
+    <section class="player-bar card">
+      <div class="mini-avatar"><ion-icon name="person-circle-outline"></ion-icon></div>
+      <div class="player-copy"><strong>Player One</strong><small>LEVEL {{game.level}} • {{game.coins}} coins</small>
+      </div>
+      <div class="streak"><span>🏆</span>{{game.stats.wins}} wins</div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-title"><span class="pulse-dot"></span><span>QUICK PLAY</span></div>
+      <h2>Ready for a quick win?</h2>
+      <p>Beat the computer to earn <b>10 coins</b> and level up, or play a friend for free.</p>
+
+      <button class="play-now" [disabled]="navigating" (click)="openSelectMode()">
+        <span>PLAY NOW</span><ion-icon name="arrow-forward-circle"></ion-icon>
+      </button>
+    </section>
+
+    <button class="daily-card card" [disabled]="navigating || game.dailyCompletedToday" (click)="openDailyChallenge()">
+      <div class="daily-icon">{{todayDate}}</div>
+      <div class="daily-copy">
+        <strong>Daily Challenge</strong>
+        <small *ngIf="!game.dailyCompletedToday">Today's shared board • +25 coins • {{game.dailyStreak}} day
+          streak</small>
+        <small *ngIf="game.dailyCompletedToday">Completed today • {{game.dailyStreak}} day streak</small>
+      </div>
+      <ion-icon [name]="game.dailyCompletedToday ? 'checkmark-circle' : 'arrow-forward-circle'"></ion-icon>
+    </button>
+
+    <section class="reward-ad card" *ngIf="!rewardAd.isWatching">
+      <div class="reward-ad-head">
+        <div class="ad-badge">REWARDED AD</div>
+        <span class="ad-reward">+100 🪙</span>
+      </div>
+      <div class="reward-ad-body">
+        <div class="ad-play"><ion-icon name="play-circle"></ion-icon></div>
+        <div>
+          <strong>Watch & Earn</strong>
+          <small>Watch the short rewarded video completely and get 100 coins.</small>
+        </div>
+      </div>
+      <button class="reward-ad-btn" [disabled]="!rewardAd.canWatch" (click)="watchRewardedAd()">
+        <span *ngIf="rewardAd.nativeAdInFlight">LOADING AD…</span>
+        <span *ngIf="!rewardAd.nativeAdInFlight && rewardAd.canWatch">WATCH VIDEO • +100 COINS</span>
+        <span *ngIf="!rewardAd.nativeAdInFlight && !rewardAd.canWatch">AVAILABLE IN {{ formatCooldown() }}</span>
+      </button>
+      <p class="reward-notice" *ngIf="rewardNotice">{{ rewardNotice }}</p>
+    </section>
+
+    <section class="stats card">
+      <div><b>{{game.level}}</b><span>LEVEL</span></div>
+      <div><b>{{game.coins}}</b><span>COINS</span></div>
+      <div><b>{{game.stats.wins}}</b><span>WINS</span></div>
+    </section>
+
+    <nav class="quick">
+      <button class="shop-link" [disabled]="navigating" (click)="open('/shop')"><ion-icon
+          name="bag-handle-outline"></ion-icon><span>Symbol Shop</span></button>
+      <button [disabled]="navigating" (click)="open('/profile')"><ion-icon
+          name="person-circle-outline"></ion-icon><span>Profile</span></button>
+      <button [disabled]="navigating" (click)="open('/settings')"><ion-icon
+          name="settings-outline"></ion-icon><span>Settings</span></button>
+    </nav>
+    <app-rewarded-video-overlay title="WATCH TO EARN 100 COINS" rewardLabel="+100 🪙"
+      (completed)="finishRewardedAd()"></app-rewarded-video-overlay>
+  </main>
+</ion-content>
