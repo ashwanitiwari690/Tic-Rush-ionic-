@@ -1,7 +1,7 @@
 node_modules/
 dist/
-www/
 android/
+www/
 .angular/
 .env
 .env.*
