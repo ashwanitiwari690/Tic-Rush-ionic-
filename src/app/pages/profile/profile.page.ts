@@ -5,18 +5,20 @@ import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { arrowBack, trophy, sparkles, personCircleOutline, walletOutline } from 'ionicons/icons';
 import { GameService } from '../../services/game.service';
+import { WithdrawalService } from '../../services/withdrawal.service';
+import { WithdrawalCardComponent } from '../../components/withdrawal-card/withdrawal-card.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon],
+  imports: [CommonModule, IonContent, IonIcon, WithdrawalCardComponent],
   templateUrl: 'profile.page.html',
   styleUrl: 'profile.page.css'
 })
 export class ProfilePage {
   navigating = false;
 
-  constructor(public game: GameService, public router: Router) {
+  constructor(public game: GameService, public withdrawal: WithdrawalService, public router: Router) {
     addIcons({ arrowBack, trophy, sparkles, personCircleOutline, walletOutline });
   }
 

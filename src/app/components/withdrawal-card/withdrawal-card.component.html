@@ -1,0 +1,32 @@
+<section class="section" *ngIf="visible">
+    <label>WITHDRAW</label>
+    <div class="card withdraw-card">
+        <div class="withdraw-head"><ion-icon name="wallet-outline"></ion-icon>
+            <div><strong>Withdraw your coins</strong><small>Available for withdrawal: {{coinsToRedeem | number}} coins
+                    • ≈ ₹{{game.walletRupees | number:'1.0-2'}}</small></div>
+        </div>
+
+        <button *ngIf="view === 'summary'" (click)="openConfirm()">REDEEM / WITHDRAW</button>
+
+        <div class="confirm-panel" *ngIf="view === 'confirm'">
+            <div class="confirm-row"><span>Available Coins</span><b>{{coinsToRedeem | number}}</b></div>
+            <div class="confirm-row"><span>Coins to Redeem</span><b>{{coinsToRedeem | number}}</b></div>
+            <div class="confirm-row"><span>Estimated Amount</span><b>≈ ₹{{game.walletRupees | number:'1.0-2'}}</b></div>
+            <label for="withdraw-mobile">Registered mobile number</label>
+            <input id="withdraw-mobile" inputmode="numeric" maxlength="10" placeholder="Enter 10-digit number"
+                [value]="mobileNumber" (input)="onMobileNumberInput($event)" [disabled]="withdrawal.isProcessing">
+            <p class="withdraw-error" *ngIf="errorMessage"><ion-icon name="close-circle"></ion-icon>{{errorMessage}}</p>
+            <div class="confirm-actions">
+                <button class="secondary" type="button" [disabled]="withdrawal.isProcessing" (click)="cancel()">CANCEL</button>
+                <button type="button" [disabled]="withdrawal.isProcessing || !mobileNumberValid" (click)="confirm()">
+                    {{withdrawal.isProcessing ? 'PROCESSING…' : 'CONFIRM WITHDRAWAL'}}
+                </button>
+            </div>
+        </div>
+
+        <div class="success-panel" *ngIf="view === 'success'">
+            <p>Withdrawal confirmed • ₹{{lastAmount | number:'1.0-2'}} will be credited to your registered number.</p>
+            <button type="button" (click)="done()">DONE</button>
+        </div>
+    </div>
+</section>

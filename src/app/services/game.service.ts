@@ -119,6 +119,14 @@ export class GameService {
     this.save();
   }
 
+  /** Applies a backend-confirmed withdrawal: only call after the Central API reports success. */
+  deductCoins(amount: number): void {
+    const value = Math.max(0, Math.floor(Number(amount) || 0));
+    if (!value) return;
+    this.state.coins = Math.max(0, this.state.coins - value);
+    this.save();
+  }
+
   setMode(mode: Mode) {
     this.mode = mode;
     if (mode === 'survival') {
