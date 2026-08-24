@@ -119,21 +119,3 @@ ion-range {
     font-size: 24px;
     color: var(--cyan)
 }
-.withdraw-card { padding:16px; }
-.withdraw-head { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
-.withdraw-head ion-icon { color:var(--cyan); font-size:24px; }
-.withdraw-head strong,.withdraw-head small {display:block;}
-.withdraw-head strong {color:#fff;}
-.withdraw-head small {color:var(--muted);font-size:11px;margin-top:3px;}
-.rate-note {margin:0 0 12px;color:#ffd85b;font-size:10px;font-weight:800;}
-.withdraw-card input {
-  width:100%; box-sizing:border-box; border:1px solid #3e5c9f; border-radius:11px;
-  background:#0b1534; color:#fff; padding:12px; outline:none; font-size:14px;
-}
-.withdraw-card input:focus { border-color:var(--cyan); }
-.withdraw-card > button {
-  width:100%; margin-top:10px; border:0; border-radius:11px; padding:12px;
-  background:linear-gradient(90deg,#20dfff,#5e68ff); color:#fff; font-weight:900;
-}
-.withdraw-card > button:disabled {opacity:.45;}
-.withdraw-card p {color:#66efbf;text-align:center;font-size:10px;font-weight:800;margin:9px 0 0;}

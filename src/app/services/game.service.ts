@@ -22,9 +22,6 @@ export interface MarkTheme {
   className: string;
 }
 
-/** Coin-to-cash conversion used for wallet withdrawals: 100 coins = ₹1. */
-export const COINS_PER_RUPEE = 100;
-
 const KEY = 'tic-rush-state-v3';
 const DEFAULT: Stats = { wins: 0, losses: 0, draws: 0, games: 0, bestLevel: 1, coins: 0, survivalBest: 0, dailyStreak: 0, dailyLastCompleted: '' };
 export const WIN_LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
@@ -70,8 +67,6 @@ export class GameService {
 
   get stats(): Stats { return { ...this.state }; }
   get coins(): number { return this.state.coins; }
-  /** Current wallet balance converted to rupees at the fixed COINS_PER_RUPEE rate. */
-  get walletRupees(): number { return Math.floor(this.state.coins / COINS_PER_RUPEE * 100) / 100; }
   get dailyStreak(): number { return this.state.dailyStreak; }
   get dailyCompletedToday(): boolean { return this.state.dailyLastCompleted === todayStr(); }
   get themes(): readonly MarkTheme[] { return MARK_THEMES; }
@@ -116,6 +111,14 @@ export class GameService {
     const value = Math.max(0, Math.floor(Number(amount) || 0));
     if (!value) return;
     this.state.coins += value;
+    this.save();
+  }
+
+  /** Synchronizes the local wallet after a backend-confirmed coin redemption. Never call this before the Central API confirms success. */
+  redeemSuccessfulCoins(coins: number): void {
+    const value = Math.max(0, Math.floor(Number(coins) || 0));
+    if (!value) return;
+    this.state.coins = Math.max(0, this.state.coins - value);
     this.save();
   }
 

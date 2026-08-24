@@ -122,3 +122,126 @@
     color: #a2a5ae;
 }
 
+.withdraw {
+    margin-top: 12px;
+    padding: 16px;
+}
+
+.withdraw-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.withdraw-head ion-icon {
+    color: var(--cyan);
+    font-size: 24px;
+}
+
+.withdraw-head strong,
+.withdraw-head small {
+    display: block;
+}
+
+.withdraw-head strong {
+    color: #fff;
+}
+
+.withdraw-head small {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.withdraw-btn {
+    width: 100%;
+    border: 0;
+    border-radius: 11px;
+    padding: 12px;
+    background: linear-gradient(90deg, #20dfff, #5e68ff);
+    color: #fff;
+    font-weight: 900;
+}
+
+.withdraw-form label {
+    display: block;
+    color: #94a8d7;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin: 12px 0 6px;
+}
+
+.withdraw-form input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #3e5c9f;
+    border-radius: 11px;
+    background: #0b1534;
+    color: #fff;
+    padding: 12px;
+    outline: none;
+    font-size: 14px;
+}
+
+.withdraw-form input:focus {
+    border-color: var(--cyan);
+}
+
+.hint {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.withdraw-error {
+    color: #ff6b6b;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    margin: 10px 0 0;
+}
+
+.withdraw-success {
+    color: #66efbf;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    margin: 12px 0 0;
+    padding: 12px;
+    background: rgba(102, 239, 191, .08);
+    border: 1px solid rgba(102, 239, 191, .35);
+    border-radius: 11px;
+}
+
+.withdraw-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.withdraw-actions button {
+    flex: 1;
+    border: 0;
+    border-radius: 11px;
+    padding: 12px;
+    font-weight: 900;
+}
+
+.withdraw-actions .ghost {
+    background: #0f1b40;
+    color: #aebbd8;
+    border: 1px solid #3e5c9f;
+}
+
+.withdraw-actions .primary {
+    background: linear-gradient(90deg, #20dfff, #5e68ff);
+    color: #fff;
+}
+
+.withdraw-actions button:disabled {
+    opacity: .45;
+}
+

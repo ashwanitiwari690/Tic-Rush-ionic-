@@ -3,7 +3,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonContent, IonIcon, IonToggle, IonRange } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { arrowBack, volumeHigh, musicalNotes, personCircleOutline, walletOutline } from 'ionicons/icons';
+import { arrowBack, volumeHigh, musicalNotes, personCircleOutline } from 'ionicons/icons';
 import { AudioService } from '../../services/audio.service';
 import { GameService } from '../../services/game.service';
 
@@ -16,11 +16,9 @@ import { GameService } from '../../services/game.service';
 })
 export class SettingsPage {
   navigating = false;
-  withdrawNumber = '';
-  withdrawMessage = '';
 
   constructor(public audio: AudioService, public game: GameService, public router: Router) {
-    addIcons({ arrowBack, volumeHigh, musicalNotes, personCircleOutline, walletOutline });
+    addIcons({ arrowBack, volumeHigh, musicalNotes, personCircleOutline });
   }
 
   async back() {
@@ -35,17 +33,5 @@ export class SettingsPage {
     this.navigating = true;
     try { await this.router.navigateByUrl('/profile'); }
     finally { this.navigating = false; }
-  }
-
-  onWithdrawInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.withdrawNumber = input.value.replace(/\D/g, '').slice(0, 10);
-    input.value = this.withdrawNumber;
-  }
-
-  withdraw() {
-    if (this.withdrawNumber.length === 10 && this.game.coins >= 1000) {
-      this.withdrawMessage = `Request ready for API integration • payout ₹${this.game.walletRupees.toFixed(2)}`;
-    }
   }
 }

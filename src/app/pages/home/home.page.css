@@ -275,7 +275,7 @@
   border: 1px solid rgba(61, 231, 255, .42);
   background: linear-gradient(145deg, #12295a, #0d1839);
 }
-.reward-ad-head,.reward-player-top {
+.reward-ad-head {
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -313,37 +313,7 @@
   color:#fff; font-weight:950; font-size:11px; letter-spacing:.3px;
 }
 .reward-ad-btn:disabled { opacity:.48; background:#26365f; }
-.reward-notice,.reward-complete { margin:8px 0 0; color:#65e8bf; font-size:10px; font-weight:800; }
-.reward-player {
-  margin-top:12px; padding:14px; border-radius:20px;
-  border:1px solid rgba(85,225,255,.4);
-  background:#0d1839;
-}
-.ad-video {
-  position:relative; overflow:hidden; min-height:170px; margin-top:12px;
-  border-radius:15px; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  background:radial-gradient(circle at 50% 25%, #1d3e78 0, #101d45 42%, #070e25 100%);
-  text-align:center;
-}
-.ad-scan { position:absolute; inset:0; background:linear-gradient(transparent 48%,rgba(45,220,255,.12) 50%,transparent 52%); animation:adScan 2.2s linear infinite; }
-.ad-logo { position:relative; color:#20e0ff; font-weight:1000; font-size:26px; line-height:.8; text-shadow:0 0 18px rgba(32,224,255,.45); }
-.ad-logo span { color:#fff; }
-.ad-video-copy { position:relative; margin-top:16px; }
-.ad-video-copy strong,.ad-video-copy small { display:block; }
-.ad-video-copy strong { color:#fff; font-size:12px; }
-.ad-video-copy small { color:#9fb1d9; font-size:9px; margin-top:4px; }
-.ad-progress { height:5px; margin-top:10px; overflow:hidden; border-radius:99px; background:#1b2a50; }
-.ad-progress span { display:block; height:100%; background:linear-gradient(90deg,#20e0ff,#7655ff); transition:width .25s linear; }
-.reward-skip {
-  width:100%; margin-top:9px; padding:9px; border:0; background:transparent;
-  color:#8fa2ce; font-size:10px;
-}
-@keyframes adScan { from { transform:translateY(-80px); } to { transform:translateY(180px); } }
-@media (prefers-reduced-motion: reduce) {
-  .ad-scan { animation:none; }
-}
-
-@media(prefers-reduced-motion:reduce){.theme-card{transition:none}}
+.reward-notice { margin:8px 0 0; color:#65e8bf; font-size:10px; font-weight:800; }
 
 .quick .shop-link{border-color:rgba(255,216,91,.32);background:linear-gradient(145deg,#171f4d,#0b1534)}
 .quick .shop-link ion-icon{color:#ffd85b}
