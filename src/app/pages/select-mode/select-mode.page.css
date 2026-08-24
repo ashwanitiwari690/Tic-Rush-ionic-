@@ -6,7 +6,6 @@
 
 .select-mode {
     padding-top: 14px;
-    /* Extra bottom space so the native AdMob banner docked to the bottom of the screen doesn't cover the last card. */
     padding-bottom: 90px
 }
 

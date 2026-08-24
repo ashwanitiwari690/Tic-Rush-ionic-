@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AdMobService } from './admob.service';
 import { AudioService } from './audio.service';
 
 export const REWARDED_AD_COOLDOWN_MS = 2 * 60 * 60 * 1000;
@@ -11,15 +10,13 @@ export class RewardAdService {
   private readonly key = 'tic-rush-rewarded-ad-last-v2';
   private readonly legacyKey = 'tic-rush-rewarded-ad-last-v1';
 
-  /** Local fullscreen video overlay state — only used on web, where the native AdMob SDK can't run. */
+  /** Local fullscreen simulated video overlay state. */
   isWatching = false;
   secondsRemaining = 0;
-  /** True while a real AdMob ad is loading/showing on native; buttons should stay disabled during this. */
-  nativeAdInFlight = false;
   message = '';
   private completed = false;
 
-  constructor(private admob: AdMobService, private audio: AudioService) {}
+  constructor(private audio: AudioService) {}
 
   get lastRewardAt(): number {
     const current = Number(localStorage.getItem(this.key));
@@ -33,7 +30,7 @@ export class RewardAdService {
   }
 
   get canWatch(): boolean {
-    return !this.isWatching && !this.nativeAdInFlight && Date.now() >= this.availableAt;
+    return !this.isWatching && Date.now() >= this.availableAt;
   }
 
   get remainingMs(): number {
@@ -55,23 +52,11 @@ export class RewardAdService {
       : 0;
   }
 
-  /** On native, shows a real (test-mode) AdMob rewarded ad directly. On web, opens the local simulated video overlay. */
+  /** Opens the local simulated fullscreen video overlay. */
   async startWatch(): Promise<boolean> {
     if (!this.canWatch) return false;
     this.audio.setMusic(false);
     this.audio.setSound(true);
-
-    if (this.admob.isNative) {
-      this.nativeAdInFlight = true;
-      try {
-        const earned = await this.admob.showRewardedAd();
-        if (earned) this.completeWatch();
-      } finally {
-        this.nativeAdInFlight = false;
-        this.audio.setMusic(true);
-      }
-      return true;
-    }
 
     this.isWatching = true;
     this.completed = false;

@@ -51,9 +51,8 @@
         </div>
       </div>
       <button class="reward-ad-btn" [disabled]="!rewardAd.canWatch" (click)="watchRewardedAd()">
-        <span *ngIf="rewardAd.nativeAdInFlight">LOADING AD…</span>
-        <span *ngIf="!rewardAd.nativeAdInFlight && rewardAd.canWatch">WATCH VIDEO • +100 COINS</span>
-        <span *ngIf="!rewardAd.nativeAdInFlight && !rewardAd.canWatch">AVAILABLE IN {{ formatCooldown() }}</span>
+        <span *ngIf="rewardAd.canWatch">WATCH VIDEO • +100 COINS</span>
+        <span *ngIf="!rewardAd.canWatch">AVAILABLE IN {{ formatCooldown() }}</span>
       </button>
       <p class="reward-notice" *ngIf="rewardNotice">{{ rewardNotice }}</p>
     </section>

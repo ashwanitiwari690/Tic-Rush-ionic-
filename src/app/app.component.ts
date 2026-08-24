@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { IonApp } from '@ionic/angular/standalone';
-import { AdMobService } from './services/admob.service';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +12,4 @@ import { AdMobService } from './services/admob.service';
     </ion-app>
   `
 })
-export class AppComponent {
-  constructor(admob: AdMobService) {
-    // No-op on web; on native this warms up the AdMob SDK so the first rewarded ad loads faster.
-    admob.initialize().catch(() => {});
-  }
-}
+export class AppComponent {}
