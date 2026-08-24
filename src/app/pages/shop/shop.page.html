@@ -51,9 +51,8 @@
               [disabled]="!rewardAd.canWatch"
               (click)="watchAdForTheme(theme.id)">
               <ion-icon name="play-circle"></ion-icon>
-              <span *ngIf="rewardAd.nativeAdInFlight">LOADING…</span>
-              <span *ngIf="!rewardAd.nativeAdInFlight && rewardAd.canWatch">WATCH AD</span>
-              <span *ngIf="!rewardAd.nativeAdInFlight && !rewardAd.canWatch">{{ formatCooldown() }}</span>
+              <span *ngIf="rewardAd.canWatch">WATCH AD</span>
+              <span *ngIf="!rewardAd.canWatch">{{ formatCooldown() }}</span>
             </button>
             <button class="theme-action"
               [disabled]="!isAffordable(theme.id)"
