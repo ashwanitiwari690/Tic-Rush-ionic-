@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Tic Rush</string>
-    <string name="title_activity_main">Tic Rush</string>
-    <string name="package_name">com.brainrush.ticrush</string>
-    <string name="custom_url_scheme">com.brainrush.ticrush</string>
-</resources>
