@@ -25,5 +25,36 @@
             </div>
             <p>Earn 10 coins for every computer win. Team games never add coins.</p>
         </section>
+
+        <p class="withdraw-success" *ngIf="successMessage">{{successMessage}}</p>
+
+        <section class="withdraw card" *ngIf="canWithdraw">
+            <div class="withdraw-head">
+                <ion-icon name="wallet-outline"></ion-icon>
+                <div>
+                    <strong>Available for Redemption</strong>
+                    <small>{{game.coins | number}} coins</small>
+                </div>
+            </div>
+
+            <button class="withdraw-btn" *ngIf="!showWithdrawForm" (click)="openWithdrawForm()">WITHDRAW COINS</button>
+
+            <div class="withdraw-form" *ngIf="showWithdrawForm">
+                <label>Coins to redeem</label>
+                <input inputmode="numeric" [value]="coinsToRedeem" (input)="onCoinsInput($event)" [disabled]="submitting">
+                <small class="hint">Min {{redemption.minimumCoins | number}} • Max {{game.coins | number}}</small>
+                <small class="hint" *ngIf="estimatedRupees !== null">≈ ₹{{estimatedRupees}} (estimated — server confirms the final amount)</small>
+
+                <label>Mobile number for payout</label>
+                <input inputmode="numeric" maxlength="10" placeholder="10 digit number" [value]="mobileNumber" (input)="onMobileInput($event)" [disabled]="submitting">
+
+                <p class="withdraw-error" *ngIf="errorMessage">{{errorMessage}}</p>
+
+                <div class="withdraw-actions">
+                    <button class="ghost" (click)="closeWithdrawForm()" [disabled]="submitting">CANCEL</button>
+                    <button class="primary" (click)="confirmWithdraw()" [disabled]="!canSubmit">{{ submitting ? 'PROCESSING…' : 'CONFIRM WITHDRAWAL' }}</button>
+                </div>
+            </div>
+        </section>
     </main>
 </ion-content>
