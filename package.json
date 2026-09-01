@@ -15,7 +15,8 @@
     "serve:8100": "ng serve --host localhost --port 8100",
     "cap:add:android": "npx cap add android",
     "cap:prepare": "npm run build && npx cap sync android",
-    "cap:android": "npm run build && npx cap add android"
+    "cap:android": "npm run build && npx cap add android",
+    "assets:generate": "capacitor-assets generate --android"
   },
   "dependencies": {
     "@angular/animations": "20.3.0",
@@ -38,6 +39,7 @@
     "@angular-devkit/build-angular": "20.3.0",
     "@angular/cli": "20.3.0",
     "@angular/compiler-cli": "20.3.0",
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "7.4.0",
     "sass": "1.90.0",
     "typescript": "5.8.3"
