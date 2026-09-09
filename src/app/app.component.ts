@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { IonApp } from '@ionic/angular/standalone';
+import { AppVerificationService } from './services/app-verification.service';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,10 @@ import { IonApp } from '@ionic/angular/standalone';
     </ion-app>
   `
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+  constructor(private appVerification: AppVerificationService) {}
+
+  ngOnInit(): void {
+    this.appVerification.verify();
+  }
+}
