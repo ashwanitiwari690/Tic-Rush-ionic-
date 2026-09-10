@@ -111,7 +111,7 @@
     margin-top: 4px
 }
 
-.wallet-head>ion-icon {
+.wallet-head>app-icon {
     font-size: 35px;
     color: var(--cyan)
 }
@@ -134,7 +134,7 @@
     margin-bottom: 12px;
 }
 
-.withdraw-head ion-icon {
+.withdraw-head app-icon {
     color: var(--cyan);
     font-size: 24px;
 }

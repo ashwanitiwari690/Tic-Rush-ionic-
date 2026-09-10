@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonIcon } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { arrowBack, trophy, sparkles, personCircleOutline, walletOutline } from 'ionicons/icons';
+import { IconComponent } from '../../components/icon/icon.component';
 import { GameService } from '../../services/game.service';
 import { GameRedemptionService, RedemptionError } from '../../services/game-redemption.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon],
+  imports: [CommonModule, IconComponent],
   templateUrl: 'profile.page.html',
   styleUrl: 'profile.page.css'
 })
@@ -24,9 +22,7 @@ export class ProfilePage implements OnInit {
   coinsToRedeem = 0;
   mobileNumber = '';
 
-  constructor(public game: GameService, public router: Router, public redemption: GameRedemptionService) {
-    addIcons({ arrowBack, trophy, sparkles, personCircleOutline, walletOutline });
-  }
+  constructor(public game: GameService, public router: Router, public redemption: GameRedemptionService) {}
 
   ngOnInit(): void {
     this.redemption.ensureGameConfig();

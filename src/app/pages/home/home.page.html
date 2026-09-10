@@ -1,4 +1,3 @@
-<ion-content [fullscreen]="true">
   <main class="page home">
     <header class="home-head">
       <div>
@@ -6,12 +5,12 @@
         <h1>TIC <span>RUSH</span></h1>
         <p>Quick rounds. Smart moves. Bigger rewards.</p>
       </div>
-      <button class="icon-btn" aria-label="Settings" [disabled]="navigating" (click)="open('/settings')"><ion-icon
-          name="settings-outline"></ion-icon></button>
+      <button class="icon-btn" aria-label="Settings" [disabled]="navigating" (click)="open('/settings')"><app-icon
+          name="settings-outline"></app-icon></button>
     </header>
 
     <section class="player-bar card">
-      <div class="mini-avatar"><ion-icon name="person-circle-outline"></ion-icon></div>
+      <div class="mini-avatar"><app-icon name="person-circle-outline"></app-icon></div>
       <div class="player-copy"><strong>Player One</strong><small>LEVEL {{game.level}} • {{game.coins}} coins</small>
       </div>
       <div class="streak"><span>🏆</span>{{game.stats.wins}} wins</div>
@@ -23,7 +22,7 @@
       <p>Beat the computer to earn <b>10 coins</b> and level up, or play a friend for free.</p>
 
       <button class="play-now" [disabled]="navigating" (click)="openSelectMode()">
-        <span>PLAY NOW</span><ion-icon name="arrow-forward-circle"></ion-icon>
+        <span>PLAY NOW</span><app-icon name="arrow-forward-circle"></app-icon>
       </button>
     </section>
 
@@ -35,7 +34,7 @@
           streak</small>
         <small *ngIf="game.dailyCompletedToday">Completed today • {{game.dailyStreak}} day streak</small>
       </div>
-      <ion-icon [name]="game.dailyCompletedToday ? 'checkmark-circle' : 'arrow-forward-circle'"></ion-icon>
+      <app-icon [name]="game.dailyCompletedToday ? 'checkmark-circle' : 'arrow-forward-circle'"></app-icon>
     </button>
 
     <section class="reward-ad card" *ngIf="!rewardAd.isWatching">
@@ -44,7 +43,7 @@
         <span class="ad-reward">+100 🪙</span>
       </div>
       <div class="reward-ad-body">
-        <div class="ad-play"><ion-icon name="play-circle"></ion-icon></div>
+        <div class="ad-play"><app-icon name="play-circle"></app-icon></div>
         <div>
           <strong>Watch & Earn</strong>
           <small>Watch the short rewarded video completely and get 100 coins.</small>
@@ -64,14 +63,11 @@
     </section>
 
     <nav class="quick">
-      <button class="shop-link" [disabled]="navigating" (click)="open('/shop')"><ion-icon
-          name="bag-handle-outline"></ion-icon><span>Symbol Shop</span></button>
-      <button [disabled]="navigating" (click)="open('/profile')"><ion-icon
-          name="person-circle-outline"></ion-icon><span>Profile</span></button>
-      <button [disabled]="navigating" (click)="open('/settings')"><ion-icon
-          name="settings-outline"></ion-icon><span>Settings</span></button>
+      <button class="shop-link" [disabled]="navigating" (click)="open('/shop')"><app-icon
+          name="bag-handle-outline"></app-icon><span>Symbol Shop</span></button>
+      <button [disabled]="navigating" (click)="open('/profile')"><app-icon
+          name="person-circle-outline"></app-icon><span>Profile</span></button>
+      <button [disabled]="navigating" (click)="open('/settings')"><app-icon
+          name="settings-outline"></app-icon><span>Settings</span></button>
     </nav>
-    <app-rewarded-video-overlay title="WATCH TO EARN 100 COINS" rewardLabel="+100 🪙"
-      (completed)="finishRewardedAd()"></app-rewarded-video-overlay>
   </main>
-</ion-content>

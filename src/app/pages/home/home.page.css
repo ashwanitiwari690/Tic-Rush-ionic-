@@ -154,7 +154,7 @@
     transform: scale(.985)
 }
 
-.play-now ion-icon {
+.play-now app-icon {
     font-size: 19px
 }
 
@@ -207,13 +207,13 @@
     margin-top: 2px
 }
 
-.daily-card>ion-icon {
+.daily-card>app-icon {
     flex: none;
     font-size: 22px;
     color: var(--cyan)
 }
 
-.daily-card:disabled>ion-icon {
+.daily-card:disabled>app-icon {
     color: #65e8bf
 }
 
@@ -263,7 +263,7 @@
     gap: 6px
 }
 
-.quick ion-icon {
+.quick app-icon {
     color: var(--cyan);
     font-size: 17px
 }
@@ -316,6 +316,6 @@
 .reward-notice { margin:8px 0 0; color:#65e8bf; font-size:10px; font-weight:800; }
 
 .quick .shop-link{border-color:rgba(255,216,91,.32);background:linear-gradient(145deg,#171f4d,#0b1534)}
-.quick .shop-link ion-icon{color:#ffd85b}
+.quick .shop-link app-icon{color:#ffd85b}
 @media(max-width:439px){.quick{grid-template-columns:1fr 1fr}.quick .shop-link{grid-column:1/-1}}
 @media(min-width:440px){.quick{grid-template-columns:repeat(3,1fr)}}

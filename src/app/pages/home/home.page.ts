@@ -1,18 +1,16 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { arrowForwardCircle, settingsOutline, personCircleOutline, playCircle, bagHandleOutline, checkmarkCircle } from 'ionicons/icons';
+import { IconComponent } from '../../components/icon/icon.component';
 import { GameService } from '../../services/game.service';
 import { AudioService } from '../../services/audio.service';
 import { RewardAdService, REWARDED_AD_COINS } from '../../services/reward-ad.service';
-import { RewardedVideoOverlayComponent } from '../../components/rewarded-video-overlay/rewarded-video-overlay.component';
+import { AdmobService } from '../../services/admob.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon, RewardedVideoOverlayComponent],
+  imports: [CommonModule, IconComponent],
   templateUrl: 'home.page.html',
   styleUrl: 'home.page.css'
 })
@@ -23,18 +21,25 @@ export class HomePage implements OnDestroy {
   todayDate = new Date().getDate();
   private cooldownTimer?: number;
 
-  constructor(public game: GameService, public router: Router, private audio: AudioService, public rewardAd: RewardAdService) {
-    addIcons({ arrowForwardCircle, settingsOutline, personCircleOutline, playCircle, bagHandleOutline, checkmarkCircle });
+  constructor(
+    public game: GameService,
+    public router: Router,
+    private audio: AudioService,
+    public rewardAd: RewardAdService,
+    private admob: AdmobService
+  ) {
     this.cooldownTimer = window.setInterval(() => {
       this.cooldownTick++;
       this.finishRewardedAd();
     }, 1000);
   }
 
+  /** Shows an interstitial ad (if one loads in time) before entering mode selection. */
   async openSelectMode() {
     if (this.navigating || this.rewardAd.isWatching) return;
     this.navigating = true;
     try {
+      await this.admob.showInterstitial();
       await this.router.navigateByUrl('/select-mode');
     } finally {
       this.navigating = false;
@@ -65,8 +70,13 @@ export class HomePage implements OnDestroy {
 
   async watchRewardedAd(): Promise<void> {
     this.rewardNotice = '';
-    const started = await this.rewardAd.startWatch();
-    if (!started) return;
+    const started = await this.rewardAd.startWatch({ allowSimulatedFallback: false });
+    if (!started) {
+      if (!this.rewardAd.usesNativeAds) {
+        this.rewardNotice = 'Rewarded ads run on the Tic Rush Android app — open it on your device to earn coins.';
+      }
+      return;
+    }
     this.finishRewardedAd();
   }
 

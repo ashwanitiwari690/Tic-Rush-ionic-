@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AudioService } from './audio.service';
+import { AdmobService } from './admob.service';
 
 export const REWARDED_AD_COOLDOWN_MS = 2 * 60 * 60 * 1000;
 export const REWARDED_AD_COINS = 100;
@@ -10,13 +11,16 @@ export class RewardAdService {
   private readonly key = 'tic-rush-rewarded-ad-last-v2';
   private readonly legacyKey = 'tic-rush-rewarded-ad-last-v1';
 
-  /** Local fullscreen simulated video overlay state. */
+  /** True when a real AdMob rewarded video is shown instead of the local simulated overlay. */
+  readonly usesNativeAds = this.admob.isSupported;
+
+  /** Local fullscreen simulated video overlay state (web/dev fallback only). */
   isWatching = false;
   secondsRemaining = 0;
   message = '';
   private completed = false;
 
-  constructor(private audio: AudioService) {}
+  constructor(private audio: AudioService, private admob: AdmobService) {}
 
   get lastRewardAt(): number {
     const current = Number(localStorage.getItem(this.key));
@@ -52,16 +56,40 @@ export class RewardAdService {
       : 0;
   }
 
-  /** Opens the local simulated fullscreen video overlay. */
-  async startWatch(): Promise<boolean> {
+  /**
+   * Starts watching a rewarded video. On native platforms this always shows
+   * a real AdMob rewarded ad and awaits AdMob's confirmed-reward callback
+   * before resolving. On web, pass `allowSimulatedFallback: true` to open the
+   * local simulated overlay for dev/testing instead of failing outright — a
+   * placement can opt out of that fallback if it should only ever show real ads.
+   *
+   * Returns true once the reward has actually been granted (native), or once
+   * the simulated overlay has started playing (web fallback — completion is
+   * reported later via completeWatch()/consumeCompletedReward()).
+   */
+  async startWatch(options: { allowSimulatedFallback?: boolean } = {}): Promise<boolean> {
     if (!this.canWatch) return false;
     this.audio.setMusic(false);
     this.audio.setSound(true);
+    this.completed = false;
+    this.message = '';
+
+    if (this.admob.isSupported) {
+      this.isWatching = true;
+      const granted = await this.admob.showRewarded();
+      this.isWatching = false;
+      this.audio.setMusic(true);
+      if (granted) this.completeWatch();
+      return granted;
+    }
+
+    if (options.allowSimulatedFallback === false) {
+      this.audio.setMusic(true);
+      return false;
+    }
 
     this.isWatching = true;
-    this.completed = false;
     this.secondsRemaining = REWARDED_AD_DURATION_SECONDS;
-    this.message = '';
     return true;
   }
 

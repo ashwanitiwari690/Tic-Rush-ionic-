@@ -1,11 +1,10 @@
-<ion-content [fullscreen]="true">
     <main class="page profile">
-        <div class="topbar"><button class="icon-btn" [disabled]="navigating" (click)="back()"><ion-icon
-                    name="arrow-back"></ion-icon></button>
+        <div class="topbar"><button class="icon-btn" [disabled]="navigating" (click)="back()"><app-icon
+                    name="arrow-back"></app-icon></button>
             <div class="title">PROFILE</div><span></span>
         </div>
         <div class="identity card">
-            <div class="avatar"><ion-icon name="person-circle-outline"></ion-icon></div>
+            <div class="avatar"><app-icon name="person-circle-outline"></app-icon></div>
             <div>
                 <div class="name">Player One</div>
                 <div class="level">LEVEL {{game.level}}</div>
@@ -20,8 +19,8 @@
         </div>
         <section class="wallet card">
             <div class="wallet-head">
-                <div><span>COIN WALLET</span><strong>🪙 {{game.coins}}</strong></div><ion-icon
-                    name="wallet-outline"></ion-icon>
+                <div><span>COIN WALLET</span><strong>🪙 {{game.coins}}</strong></div><app-icon
+                    name="wallet-outline"></app-icon>
             </div>
             <p>Earn 10 coins for every computer win. Team games never add coins.</p>
         </section>
@@ -30,7 +29,7 @@
 
         <section class="withdraw card" *ngIf="canWithdraw">
             <div class="withdraw-head">
-                <ion-icon name="wallet-outline"></ion-icon>
+                <app-icon name="wallet-outline"></app-icon>
                 <div>
                     <strong>Available for Redemption</strong>
                     <small>{{game.coins | number}} coins</small>
@@ -57,4 +56,3 @@
             </div>
         </section>
     </main>
-</ion-content>
