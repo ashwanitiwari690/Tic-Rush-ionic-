@@ -1,10 +1,9 @@
 
-<ion-content [fullscreen]="true">
 <main class="page game-page">
   <header class="topbar">
-    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()"><ion-icon name="arrow-back"></ion-icon></button>
+    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()"><app-icon name="arrow-back"></app-icon></button>
     <div class="title">TIC RUSH</div>
-    <button class="icon-btn" aria-label="Sound" (click)="toggleSound()"><ion-icon [name]="audio.sound?'volume-high':'volume-mute'"></ion-icon></button>
+    <button class="icon-btn" aria-label="Sound" (click)="toggleSound()"><app-icon [name]="audio.sound?'volume-high':'volume-mute'"></app-icon></button>
   </header>
 
   <div class="mode-line">
@@ -81,4 +80,3 @@
   <button class="switch" *ngIf="game.mode==='survival'" [disabled]="navigating" (click)="endRun()">END RUN</button>
   <button class="switch" *ngIf="game.mode==='daily'" [disabled]="navigating" (click)="back()">BACK TO HOME</button>
 </main>
-</ion-content>

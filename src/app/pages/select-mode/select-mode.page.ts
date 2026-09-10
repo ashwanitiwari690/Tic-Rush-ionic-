@@ -1,25 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { arrowBack, arrowForwardCircle, hardwareChipOutline, peopleOutline, flame } from 'ionicons/icons';
+import { IconComponent } from '../../components/icon/icon.component';
 import { GameService, Mode } from '../../services/game.service';
 import { AudioService } from '../../services/audio.service';
 
 @Component({
   selector: 'app-select-mode',
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon],
+  imports: [CommonModule, IconComponent],
   templateUrl: 'select-mode.page.html',
   styleUrl: 'select-mode.page.css'
 })
 export class SelectModePage {
   navigating = false;
 
-  constructor(public game: GameService, private router: Router, private audio: AudioService) {
-    addIcons({ arrowBack, arrowForwardCircle, hardwareChipOutline, peopleOutline, flame });
-  }
+  constructor(public game: GameService, private router: Router, private audio: AudioService) {}
 
   async go(mode: Mode) {
     if (this.navigating) return;

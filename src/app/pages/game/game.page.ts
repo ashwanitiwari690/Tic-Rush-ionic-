@@ -1,25 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { arrowBack, volumeHigh, volumeMute } from 'ionicons/icons';
+import { IconComponent } from '../../components/icon/icon.component';
 import { GameService } from '../../services/game.service';
 import { AudioService } from '../../services/audio.service';
+import { AdmobService } from '../../services/admob.service';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon],
+  imports: [CommonModule, IconComponent],
   templateUrl: 'game.page.html',
   styleUrl: 'game.page.css'
 })
 export class GamePage {
   navigating = false;
 
-  constructor(public game: GameService, public audio: AudioService, private router: Router) {
-    addIcons({ arrowBack, volumeHigh, volumeMute });
-  }
+  constructor(public game: GameService, public audio: AudioService, private router: Router, private admob: AdmobService) {}
 
   move(i: number) {
     this.audio.startMusic();
@@ -36,6 +33,7 @@ export class GamePage {
       await this.back();
       return;
     }
+    void this.admob.maybeShowInterstitialAtBreakpoint();
     this.game.resetBoard();
     this.audio.startMusic();
   }
@@ -44,6 +42,7 @@ export class GamePage {
     if (this.navigating) return;
     this.navigating = true;
     this.audio.stopMusic();
+    if (this.game.winner) void this.admob.maybeShowInterstitialAtBreakpoint();
     try {
       await this.router.navigateByUrl('/home');
     } finally {
@@ -62,6 +61,7 @@ export class GamePage {
   async endRun() {
     if (this.navigating) return;
     this.navigating = true;
+    void this.admob.maybeShowInterstitialAtBreakpoint();
     try {
       await this.router.navigateByUrl('/select-mode');
     } finally {

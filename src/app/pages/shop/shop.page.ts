@@ -1,9 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { arrowBack, bagHandleOutline, checkmarkCircle, lockClosed, playCircle } from 'ionicons/icons';
+import { IconComponent } from '../../components/icon/icon.component';
 import { GameService, MarkThemeId } from '../../services/game.service';
 import { RewardAdService } from '../../services/reward-ad.service';
 import { RewardedVideoOverlayComponent } from '../../components/rewarded-video-overlay/rewarded-video-overlay.component';
@@ -11,7 +9,7 @@ import { RewardedVideoOverlayComponent } from '../../components/rewarded-video-o
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon, RewardedVideoOverlayComponent],
+  imports: [CommonModule, IconComponent, RewardedVideoOverlayComponent],
   templateUrl: 'shop.page.html',
   styleUrl: 'shop.page.css'
 })
@@ -22,7 +20,6 @@ export class ShopPage implements OnDestroy {
   private cooldownTimer?: number;
 
   constructor(public game: GameService, public rewardAd: RewardAdService, private router: Router) {
-    addIcons({ arrowBack, bagHandleOutline, checkmarkCircle, lockClosed, playCircle });
     this.cooldownTimer = window.setInterval(() => this.cooldownTick++, 1000);
   }
 

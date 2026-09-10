@@ -32,7 +32,7 @@
 .theme-action:disabled{opacity:.45;background:#26365f}
 .theme-unlock{display:flex;flex-direction:column;gap:6px;flex:none}
 .theme-watch{min-width:82px;padding:9px 11px;border:1px solid rgba(255,216,91,.4);border-radius:11px;background:rgba(255,216,91,.1);color:#ffd85b;font-size:9px;font-weight:950;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
-.theme-watch ion-icon{font-size:13px}
+.theme-watch app-icon{font-size:13px}
 .theme-watch:disabled{opacity:.45;color:#8ea4d0;border-color:#324f96;background:transparent}
 .shop-tip{margin-top:12px;padding:13px}
 .shop-tip strong{color:#ffd85b;font-size:11px}

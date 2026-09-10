@@ -3,22 +3,21 @@
   --bg:#050a20;--bg2:#091331;--panel:#111f4b;--panel2:#182b63;
   --cyan:#20e0ff;--blue:#527cff;--purple:#7958ff;--text:#f7f9ff;
   --muted:#9caed8;--gold:#ffd45a;--danger:#ff6485;--green:#55e6b0;
+  /* Set at runtime by AdmobService once the persistent banner reports its height. */
+  --ad-banner-space:0px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;width:100%;min-height:100%;background:var(--bg);color:var(--text);
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   overscroll-behavior:none}
 body{overflow-x:hidden}
-ion-app,ion-content{--background:var(--bg);background:var(--bg)}
-ion-content{height:100%;--overflow:auto;scrollbar-width:none}
-ion-content::part(scroll){scrollbar-width:none;-ms-overflow-style:none}
-ion-content::part(scroll)::-webkit-scrollbar{display:none;width:0;height:0}
 *{scrollbar-width:none}
 *::-webkit-scrollbar{width:0;height:0;display:none}
 button{font:inherit}
 .page{
-  width:100%;max-width:520px;min-height:100%;
-  margin:0 auto;padding:18px 16px 28px;
+  width:100%;max-width:520px;height:100%;
+  margin:0 auto;padding:18px 16px calc(28px + var(--ad-banner-space));
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
   background:
     radial-gradient(circle at 10% 0%,rgba(32,224,255,.13),transparent 28%),
     radial-gradient(circle at 100% 65%,rgba(121,88,255,.14),transparent 34%),
@@ -43,15 +42,11 @@ button:disabled{cursor:default} .mode:disabled{opacity:.75} .icon-btn:disabled{o
 
 /* Stable Angular router host: use the standard Angular outlet instead of
    Ionic's stacked router outlet to avoid blank routed views on client navigation. */
-html, body, app-root, ion-app {
+html, body, app-root {
   width: 100%;
   height: 100%;
 }
 app-root {
-  display: block;
-  min-height: 100%;
-}
-ion-app {
   position: relative;
   display: block;
   overflow: hidden;
