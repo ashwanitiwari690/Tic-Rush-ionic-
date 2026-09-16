@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 /** Earnivo Central Backend host. The Games API (GET /api/games) and Game Rewards API (POST /api/game-rewards/redeem) both live here. */
-const API_BASE_URL = 'http://localhost:4227';
+const API_BASE_URL = 'https://api.admobility.in';
 
 /** This game's identifier in the Central backend's game registry. Single source — do not repeat this string elsewhere. */
 export const GAME_CODE = 'TIC_RUSH';

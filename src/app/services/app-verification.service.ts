@@ -5,10 +5,10 @@ import { Capacitor } from '@capacitor/core';
 import { AdvertisingId } from '@capacitor-community/advertising-id';
 
 /** Earnivo Central Backend host — same host as the Games/Game Rewards APIs. */
-const API_BASE_URL = 'http://localhost:4227';
+const API_BASE_URL = 'https://api.admobility.in';
 
 /** This game's "App Promotion" campaign API key, from the Earnivo agent panel. Single source — do not repeat this string elsewhere. */
-const CAMPAIGN_API_KEY = 'REPLACE_WITH_EARNIVO_APP_PROMOTION_API_KEY';
+const CAMPAIGN_API_KEY = 'ak_d08cfadf4b361791aab7cafcb6a1497729274071a0bd890c';
 
 interface ConfirmApiResponse {
   success: boolean;
