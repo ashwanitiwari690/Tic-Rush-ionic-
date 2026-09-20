@@ -1,1 +1,87 @@
-<main class="page settings"><div class="topbar"><button class="icon-btn" [disabled]="navigating" (click)="back()"><app-icon name="arrow-back"></app-icon></button><div class="title">SETTINGS</div><span></span></div><section class="section"><label>AUDIO</label><div class="card setting-list"><div class="setting"><app-icon name="volume-high"></app-icon><div><strong>Sound Effects</strong><small>Tap, win and game feedback</small></div><label class="switch"><input type="checkbox" [checked]="audio.sound" (change)="onSoundToggle($event)"><span class="switch-track"><span class="switch-thumb"></span></span></label></div><div class="setting"><app-icon name="musical-notes"></app-icon><div><strong>Music</strong><small>Light arcade music during play</small></div><label class="switch"><input type="checkbox" [checked]="audio.music" (change)="onMusicToggle($event)"><span class="switch-track"><span class="switch-thumb"></span></span></label></div><div class="volume"><div><strong>Music Volume</strong><small>{{(audio.volume*100)|number:'1.0-0'}}%</small></div><input type="range" class="volume-range" min="0" max="1" step="0.05" [value]="audio.volume" (input)="onVolumeInput($event)"></div></div></section><section class="section"><label>GAMEPLAY</label><div class="card info"><div><strong>Computer Difficulty</strong><small>Smart mode balances challenge and speed.</small></div><div class="difficulty"><button [class.active]="game.difficulty==='easy'" (click)="game.setDifficulty('easy')">Easy</button><button [class.active]="game.difficulty==='smart'" (click)="game.setDifficulty('smart')">Smart</button><button [class.active]="game.difficulty==='master'" (click)="game.setDifficulty('master')">Master</button></div></div></section><section class="section"><label>PROFILE</label><button class="card link-card" [disabled]="navigating" (click)="openProfile()"><app-icon name="person-circle-outline"></app-icon><div><strong>Profile & stats</strong><small>Coins, wins and level progress</small></div><span>›</span></button></section></main>
+<main class="page settings">
+  <div class="topbar">
+    <button class="icon-btn" [disabled]="navigating" (click)="back()">
+      <app-icon name="arrow-back"></app-icon>
+    </button>
+    <div class="title">SETTINGS</div>
+    <span></span>
+  </div>
+
+  <section class="section">
+    <label>AUDIO</label>
+    <div class="card setting-list">
+      <div class="setting">
+        <app-icon name="volume-high"></app-icon>
+        <div>
+          <strong>Sound Effects</strong>
+          <small>Tap, win and game feedback</small>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [checked]="audio.sound" (change)="onSoundToggle($event)">
+          <span class="switch-track"><span class="switch-thumb"></span></span>
+        </label>
+      </div>
+
+      <div class="setting">
+        <app-icon name="musical-notes"></app-icon>
+        <div>
+          <strong>Music</strong>
+          <small>Light arcade music during play</small>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [checked]="audio.music" (change)="onMusicToggle($event)">
+          <span class="switch-track"><span class="switch-thumb"></span></span>
+        </label>
+      </div>
+
+      <div class="volume">
+        <div>
+          <strong>Music Volume</strong>
+          <small>{{ (audio.volume * 100) | number:'1.0-0' }}%</small>
+        </div>
+        <input type="range" class="volume-range" min="0" max="1" step="0.05" [value]="audio.volume" (input)="onVolumeInput($event)">
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <label>GAMEPLAY</label>
+    <div class="card info">
+      <div>
+        <strong>Computer Difficulty</strong>
+        <small>Smart mode balances challenge and speed.</small>
+      </div>
+      <div class="difficulty">
+        <button [class.active]="game.difficulty === 'easy'" (click)="game.setDifficulty('easy')">Easy</button>
+        <button [class.active]="game.difficulty === 'smart'" (click)="game.setDifficulty('smart')">Smart</button>
+        <button [class.active]="game.difficulty === 'master'" (click)="game.setDifficulty('master')">Master</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <label>PROFILE</label>
+    <button class="card link-card" [disabled]="navigating" (click)="openProfile()">
+      <app-icon name="person-circle-outline"></app-icon>
+      <div>
+        <strong>Profile & stats</strong>
+        <small>Coins, wins and level progress</small>
+      </div>
+      <span>›</span>
+    </button>
+  </section>
+
+  <section class="section">
+    <label>ABOUT</label>
+    <div class="card setting-list">
+      <div class="setting version-setting">
+        <app-icon name="information-circle-outline"></app-icon>
+        <div>
+          <strong>App Version</strong>
+          <small>Tic Rush<span *ngIf="appBuild"> • Build {{ appBuild }}</span></small>
+        </div>
+        <span class="version-badge">v{{ appVersion }}</span>
+      </div>
+    </div>
+  </section>
+</main>

@@ -196,3 +196,19 @@
     font-size: 24px;
     color: var(--cyan)
 }
+
+.version-setting {
+    border-bottom: none;
+}
+
+.version-badge {
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 800;
+    background: rgba(32, 224, 255, 0.12);
+    border: 1px solid rgba(32, 224, 255, 0.28);
+    padding: 5px 12px;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+    flex: none;
+}
