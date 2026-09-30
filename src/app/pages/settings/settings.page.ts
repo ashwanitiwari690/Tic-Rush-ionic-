@@ -15,7 +15,7 @@ import { GameService } from '../../services/game.service';
 })
 export class SettingsPage implements OnInit {
   navigating = false;
-  appVersion = '1.0.0';
+  appVersion = '1.0.1';
   appBuild = '';
 
   constructor(public audio: AudioService, public game: GameService, public router: Router) {}
@@ -32,7 +32,7 @@ export class SettingsPage implements OnInit {
         this.appBuild = info.build;
       }
     } catch {
-      this.appVersion = '1.0.0';
+      this.appVersion = '1.0.1';
     }
   }
 
