@@ -5,8 +5,8 @@
 }
 
 .select-mode {
-    padding-top: 14px;
-    padding-bottom: 90px
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(40px + var(--ad-banner-space) + env(safe-area-inset-bottom, 0px));
 }
 
 .hero {

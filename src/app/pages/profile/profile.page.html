@@ -39,11 +39,6 @@
             <button class="withdraw-btn" *ngIf="!showWithdrawForm" (click)="openWithdrawForm()">WITHDRAW COINS</button>
 
             <div class="withdraw-form" *ngIf="showWithdrawForm">
-                <label>Coins to redeem</label>
-                <input inputmode="numeric" [value]="coinsToRedeem" (input)="onCoinsInput($event)" [disabled]="submitting">
-                <small class="hint">Min {{redemption.minimumCoins | number}} • Max {{game.coins | number}}</small>
-                <small class="hint" *ngIf="estimatedRupees !== null">≈ ₹{{estimatedRupees}} (estimated — server confirms the final amount)</small>
-
                 <label>Mobile number for payout</label>
                 <input inputmode="numeric" maxlength="10" placeholder="10 digit number" [value]="mobileNumber" (input)="onMobileInput($event)" [disabled]="submitting">
 

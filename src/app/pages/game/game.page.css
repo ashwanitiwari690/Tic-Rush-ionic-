@@ -5,7 +5,7 @@
 }
 
 .game-page {
-    padding-top: 14px
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
 }
 
 .mode-line {
@@ -135,7 +135,10 @@
     border-radius: 25px;
     background: linear-gradient(145deg, #172b62, #0b1738);
     border: 1px solid #4968af;
-    box-shadow: 0 18px 38px rgba(0, 0, 0, .28)
+    box-shadow: 0 18px 38px rgba(0, 0, 0, .28);
+    max-width: min(100%, 390px);
+    margin: 0 auto;
+    width: 100%;
 }
 
 .board {

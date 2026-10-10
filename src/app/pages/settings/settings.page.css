@@ -5,7 +5,7 @@
 }
 
 .settings {
-    padding-top: 22px
+    padding-top: calc(18px + env(safe-area-inset-top, 0px));
 }
 
 .section {
