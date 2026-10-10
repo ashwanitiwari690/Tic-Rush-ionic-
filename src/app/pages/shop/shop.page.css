@@ -1,5 +1,5 @@
 :host{display:block;height:100%;width:100%}
-.shop-page{padding-top:14px;padding-bottom:24px}
+.shop-page{padding-top:calc(14px + env(safe-area-inset-top, 0px));padding-bottom:calc(24px + var(--ad-banner-space) + env(safe-area-inset-bottom, 0px))}
 .shop-topbar{display:flex;align-items:center;gap:10px}
 .shop-title{flex:1;min-width:0}
 .shop-title h1{margin:5px 0 0;color:#fff;font-size:23px;line-height:1}

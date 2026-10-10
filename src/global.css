@@ -16,7 +16,8 @@ body{overflow-x:hidden}
 button{font:inherit}
 .page{
   width:100%;max-width:520px;height:100%;
-  margin:0 auto;padding:18px 16px calc(28px + var(--ad-banner-space));
+  margin:0 auto;
+  padding:calc(16px + env(safe-area-inset-top, 0px)) calc(16px + env(safe-area-inset-right, 0px)) calc(24px + var(--ad-banner-space) + env(safe-area-inset-bottom, 0px)) calc(16px + env(safe-area-inset-left, 0px));
   overflow-y:auto;-webkit-overflow-scrolling:touch;
   background:
     radial-gradient(circle at 10% 0%,rgba(32,224,255,.13),transparent 28%),

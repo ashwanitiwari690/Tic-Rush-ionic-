@@ -19,7 +19,6 @@ export class ProfilePage implements OnInit {
   submitting = false;
   errorMessage = '';
   successMessage = '';
-  coinsToRedeem = 0;
   mobileNumber = '';
 
   constructor(public game: GameService, public router: Router, public redemption: GameRedemptionService) {}
@@ -40,21 +39,12 @@ export class ProfilePage implements OnInit {
     return /^\d{10}$/.test(this.mobileNumber);
   }
 
-  get coinsValid(): boolean {
-    return this.coinsToRedeem >= this.redemption.minimumCoins && this.coinsToRedeem <= this.game.coins;
-  }
-
   get canSubmit(): boolean {
-    return !this.submitting && this.mobileValid && this.coinsValid;
-  }
-
-  get estimatedRupees(): number | null {
-    return this.redemption.estimateRupees(this.coinsToRedeem);
+    return !this.submitting && this.mobileValid && this.canWithdraw;
   }
 
   openWithdrawForm(): void {
     if (!this.canWithdraw) return;
-    this.coinsToRedeem = this.game.coins;
     this.mobileNumber = this.redemption.lastUsedMobile;
     this.errorMessage = '';
     this.successMessage = '';
@@ -68,12 +58,6 @@ export class ProfilePage implements OnInit {
     this.errorMessage = '';
   }
 
-  onCoinsInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const digits = input.value.replace(/\D/g, '');
-    this.coinsToRedeem = Math.min(this.game.coins, Number(digits) || 0);
-  }
-
   onMobileInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.mobileNumber = input.value.replace(/\D/g, '').slice(0, 10);
@@ -85,7 +69,7 @@ export class ProfilePage implements OnInit {
     this.errorMessage = '';
 
     const idempotencyKey = this.redemption.currentIdempotencyKey ?? this.redemption.beginRequest();
-    const coins = this.coinsToRedeem;
+    const coins = this.game.coins;
 
     try {
       const res = await this.redemption.submit(coins, this.mobileNumber, idempotencyKey);

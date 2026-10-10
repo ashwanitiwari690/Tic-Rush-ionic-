@@ -8,8 +8,8 @@ const API_BASE_URL = 'https://api.admobility.in';
 /** This game's identifier in the Central backend's game registry. Single source — do not repeat this string elsewhere. */
 export const GAME_CODE = 'TIC_RUSH';
 
-/** Used only until GET /api/games has returned this game's real minimumCoins — never the authoritative limit. */
-const FALLBACK_MIN_COINS = 1000;
+/** Minimum coins required to withdraw (100 coins limit). */
+const FALLBACK_MIN_COINS = 100;
 
 const LAST_MOBILE_KEY = 'tic-rush-last-payout-mobile-v1';
 
@@ -73,9 +73,9 @@ export class GameRedemptionService {
 
   constructor(private http: HttpClient) {}
 
-  /** Current minimum-coins threshold — the real backend value once loaded, a conservative fallback until then. */
+  /** Minimum coins required for withdrawal (100 coins). */
   get minimumCoins(): number {
-    return this.gameConfig?.minimumCoins ?? FALLBACK_MIN_COINS;
+    return 100;
   }
 
   isEligible(coins: number): boolean {
