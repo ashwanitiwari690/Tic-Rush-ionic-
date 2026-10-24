@@ -13,3 +13,10 @@ export const AD_UNIT_IDS = {
 
 /** Show interstitials at most once every N completed game rounds (policy-safe pacing). */
 export const INTERSTITIAL_EVERY_N_ROUNDS = 2;
+
+/**
+ * Minimum cooldown between consecutive interstitial ads (in milliseconds).
+ * 60 seconds adheres to Google Play Better Ads Standards & AdMob Disruptive Ads policy,
+ * while ensuring frequent impressions across gameplay sessions to maximize revenue.
+ */
+export const INTERSTITIAL_MIN_INTERVAL_MS = 60 * 1000;

@@ -33,7 +33,7 @@ export class GamePage {
       await this.back();
       return;
     }
-    void this.admob.maybeShowInterstitialAtBreakpoint();
+    await this.admob.maybeShowInterstitialAtBreakpoint();
     this.game.resetBoard();
     this.audio.startMusic();
   }
@@ -42,7 +42,7 @@ export class GamePage {
     if (this.navigating) return;
     this.navigating = true;
     this.audio.stopMusic();
-    if (this.game.winner) void this.admob.maybeShowInterstitialAtBreakpoint();
+    if (this.game.winner) await this.admob.maybeShowInterstitialAtBreakpoint();
     try {
       await this.router.navigateByUrl('/home');
     } finally {
@@ -61,7 +61,7 @@ export class GamePage {
   async endRun() {
     if (this.navigating) return;
     this.navigating = true;
-    void this.admob.maybeShowInterstitialAtBreakpoint();
+    await this.admob.maybeShowInterstitialAtBreakpoint();
     try {
       await this.router.navigateByUrl('/select-mode');
     } finally {

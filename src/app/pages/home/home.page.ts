@@ -34,12 +34,11 @@ export class HomePage implements OnDestroy {
     }, 1000);
   }
 
-  /** Shows an interstitial ad (if one loads in time) before entering mode selection. */
+  /** Opens mode selection cleanly without disruptive interstitial ads on action buttons. */
   async openSelectMode() {
     if (this.navigating || this.rewardAd.isWatching) return;
     this.navigating = true;
     try {
-      await this.admob.showInterstitial();
       await this.router.navigateByUrl('/select-mode');
     } finally {
       this.navigating = false;

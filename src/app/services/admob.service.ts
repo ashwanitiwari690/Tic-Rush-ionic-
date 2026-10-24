@@ -8,7 +8,7 @@ import {
   BannerAdSize,
   RewardAdPluginEvents
 } from '@capacitor-community/admob';
-import { AD_UNIT_IDS, INTERSTITIAL_EVERY_N_ROUNDS } from '../config/admob.config';
+import { AD_UNIT_IDS, INTERSTITIAL_EVERY_N_ROUNDS, INTERSTITIAL_MIN_INTERVAL_MS } from '../config/admob.config';
 
 /**
  * Thin wrapper around @capacitor-community/admob. Ads only run on native
@@ -26,6 +26,7 @@ export class AdmobService {
   private interstitialReady = false;
   private interstitialLoading = false;
   private roundsSinceInterstitial = 0;
+  private lastInterstitialTime = 0;
 
   private rewardedReady = false;
   private rewardedLoading = false;
@@ -88,12 +89,22 @@ export class AdmobService {
    * an interstitial only every INTERSTITIAL_EVERY_N_ROUNDS calls, so ads stay
    * frequent without breaching AdMob's full-screen-ad frequency policies.
    */
-  async maybeShowInterstitialAtBreakpoint(): Promise<void> {
-    if (!this.isSupported) return;
+  async maybeShowInterstitialAtBreakpoint(): Promise<boolean> {
+    if (!this.isSupported) return false;
     this.roundsSinceInterstitial++;
-    if (this.roundsSinceInterstitial < INTERSTITIAL_EVERY_N_ROUNDS) return;
-    this.roundsSinceInterstitial = 0;
-    await this.showInterstitial();
+    const now = Date.now();
+    const timeSinceLast = now - this.lastInterstitialTime;
+
+    if (this.roundsSinceInterstitial < INTERSTITIAL_EVERY_N_ROUNDS || timeSinceLast < INTERSTITIAL_MIN_INTERVAL_MS) {
+      return false;
+    }
+
+    const shown = await this.showInterstitial();
+    if (shown) {
+      this.roundsSinceInterstitial = 0;
+      this.lastInterstitialTime = Date.now();
+    }
+    return shown;
   }
 
   /**
@@ -115,6 +126,7 @@ export class AdmobService {
     this.interstitialReady = false;
     try {
       await AdMob.showInterstitial();
+      this.lastInterstitialTime = Date.now();
       void this.preloadInterstitial();
       return true;
     } catch {
