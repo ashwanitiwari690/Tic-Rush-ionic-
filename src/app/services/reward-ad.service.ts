@@ -68,7 +68,7 @@ export class RewardAdService {
    * reported later via completeWatch()/consumeCompletedReward()).
    */
   async startWatch(options: { allowSimulatedFallback?: boolean } = {}): Promise<boolean> {
-    if (!this.canWatch) return false;
+    if (!this.canWatch || this.isWatching) return false;
     this.audio.setMusic(false);
     this.audio.setSound(true);
     this.completed = false;
@@ -76,11 +76,19 @@ export class RewardAdService {
 
     if (this.admob.isSupported) {
       this.isWatching = true;
-      const granted = await this.admob.showRewarded();
-      this.isWatching = false;
-      this.audio.setMusic(true);
-      if (granted) this.completeWatch();
-      return granted;
+      try {
+        const granted = await this.admob.showRewarded();
+        if (granted) {
+          this.completeWatch();
+          return true;
+        } else {
+          this.cancelWatch();
+          return false;
+        }
+      } finally {
+        this.isWatching = false;
+        this.audio.setMusic(true);
+      }
     }
 
     if (options.allowSimulatedFallback === false) {

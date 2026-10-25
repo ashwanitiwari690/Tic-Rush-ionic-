@@ -68,11 +68,14 @@ export class HomePage implements OnDestroy {
   }
 
   async watchRewardedAd(): Promise<void> {
+    if (this.rewardAd.isWatching || !this.rewardAd.canWatch) return;
     this.rewardNotice = '';
     const started = await this.rewardAd.startWatch({ allowSimulatedFallback: false });
     if (!started) {
       if (!this.rewardAd.usesNativeAds) {
         this.rewardNotice = 'Rewarded ads run on the Tic Rush Android app — open it on your device to earn coins.';
+      } else {
+        this.rewardNotice = 'Ad was closed early or could not be loaded. Please try again.';
       }
       return;
     }
