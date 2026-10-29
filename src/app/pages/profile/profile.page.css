@@ -1,6 +1,6 @@
 :host {
   display: block;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
 }
 
@@ -84,7 +84,7 @@
 .xp-bar-fill {
   display: block;
   width: 58%;
-  height: 100%;
+  min-height: 100%;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--cyan) 0%, var(--purple) 100%);
   box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);

@@ -21,7 +21,7 @@ import { ConnectivityService } from './services/connectivity.service';
     </main>
   `,
   styles: [`
-    :host { display: block; width: 100%; height: 100%; }
+    :host { display: block; width: 100%; min-height: 100%; }
     .offline-screen {
       width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
       padding: 24px; background:

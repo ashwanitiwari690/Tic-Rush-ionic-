@@ -29,7 +29,11 @@
 
   <!-- Players Arena Bar -->
   <section class="players-arena">
-    <div class="player-card" [class.active]="game.current==='X' && !game.winner" [class.winner]="game.winner==='X'">
+    <div class="player-card x-card" [class.active]="game.current==='X' && !game.winner" [class.winner]="game.winner==='X'">
+      <div class="turn-tag" *ngIf="game.current==='X' && !game.winner">
+        <span class="pulse-dot"></span>
+        <span class="turn-tag-text">TURN</span>
+      </div>
       <div class="mark-box x {{game.selectedTheme.className}}">
         <span>{{game.selectedTheme.x}}</span>
       </div>
@@ -37,25 +41,21 @@
         <strong>PLAYER 1</strong>
         <small>{{game.mode==='team' ? 'X PLAYER' : 'YOU'}}</small>
       </div>
-      <div class="turn-tag" *ngIf="game.current==='X' && !game.winner">
-        <span class="pulse-dot"></span>
-        <span class="turn-tag-text">TURN</span>
-      </div>
     </div>
 
     <div class="vs-badge">VS</div>
 
-    <div class="player-card" [class.active]="game.current==='O' && !game.winner" [class.winner]="game.winner==='O'">
+    <div class="player-card o-card" [class.active]="game.current==='O' && !game.winner" [class.winner]="game.winner==='O'">
+      <div class="turn-tag" *ngIf="game.current==='O' && !game.winner">
+        <span class="pulse-dot"></span>
+        <span class="turn-tag-text">TURN</span>
+      </div>
       <div class="mark-box o {{game.selectedTheme.className}}">
         <span>{{game.selectedTheme.o}}</span>
       </div>
       <div class="player-details">
         <strong>{{game.mode==='team' ? 'PLAYER 2' : 'AI BOT'}}</strong>
         <small>{{game.mode==='team' ? 'O PLAYER' : (game.difficulty | uppercase)}}</small>
-      </div>
-      <div class="turn-tag" *ngIf="game.current==='O' && !game.winner">
-        <span class="pulse-dot"></span>
-        <span class="turn-tag-text">TURN</span>
       </div>
     </div>
   </section>
