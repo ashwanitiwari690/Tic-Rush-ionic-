@@ -1,75 +1,88 @@
-  <main class="page shop-page">
-    <header class="shop-topbar">
-      <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()">
-        <app-icon name="arrow-back"></app-icon>
-      </button>
-      <div class="shop-title">
-        <span class="eyebrow">CUSTOMIZE YOUR MATCH</span>
-        <h1>SYMBOL SHOP</h1>
-      </div>
-      <div class="shop-wallet">🪙 {{game.coins}}</div>
-    </header>
+<main class="page shop-page">
+  <header class="shop-topbar">
+    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()">
+      <app-icon name="arrow-back"></app-icon>
+    </button>
+    <div class="shop-title">
+      <span class="eyebrow">CUSTOMIZE YOUR LOOK</span>
+      <h1>SYMBOL SHOP</h1>
+    </div>
+    <div class="shop-wallet">
+      <span class="wallet-icon">🪙</span>
+      <span class="wallet-val">{{game.coins | number}}</span>
+    </div>
+  </header>
 
-    <section class="shop-hero card">
-      <div class="hero-icon"><app-icon name="bag-handle-outline"></app-icon></div>
-      <div>
-        <h2>Upgrade your X &amp; O</h2>
-        <p>Buy a style with coins, or watch a quick rewarded video to unlock it for free.</p>
-      </div>
-    </section>
+  <section class="shop-hero card">
+    <div class="hero-icon-box">
+      <app-icon name="bag-handle-outline"></app-icon>
+    </div>
+    <div class="hero-text">
+      <h2>Upgrade Your X &amp; O</h2>
+      <p>Unlock neon symbols with coins, or watch a quick rewarded video to claim them for free.</p>
+    </div>
+  </section>
 
-    <section class="theme-grid">
-      <article class="theme-card card"
-        *ngFor="let theme of game.themes"
-        [class.selected]="game.selectedThemeId === theme.id"
-        [class.locked]="!game.isThemeOwned(theme.id)">
-        <div class="theme-preview" [ngClass]="theme.className">
-          <span>{{theme.x}}</span><span>{{theme.o}}</span>
+  <section class="theme-grid">
+    <article class="theme-card card"
+      *ngFor="let theme of game.themes; trackBy: trackByThemeId"
+      [class.selected]="game.selectedThemeId === theme.id"
+      [class.locked]="!game.isThemeOwned(theme.id)">
+      <div class="theme-preview-chamber" [ngClass]="theme.className">
+        <div class="preview-glow"></div>
+        <div class="marks-pair">
+          <span class="preview-x">{{theme.x}}</span>
+          <span class="preview-vs">VS</span>
+          <span class="preview-o">{{theme.o}}</span>
+        </div>
+      </div>
+
+      <div class="theme-details">
+        <div class="theme-meta">
+          <h3>{{theme.name}}</h3>
+          <span *ngIf="game.selectedThemeId === theme.id" class="badge-status equipped">
+            <app-icon name="checkmark-circle"></app-icon> EQUIPPED
+          </span>
+          <span *ngIf="game.selectedThemeId !== theme.id && game.isThemeOwned(theme.id)" class="badge-status owned">
+            OWNED • READY
+          </span>
+          <span *ngIf="!game.isThemeOwned(theme.id)" class="badge-status locked">
+            <app-icon name="lock-closed"></app-icon> {{theme.price}} COINS
+          </span>
         </div>
 
-        <div class="theme-info">
-          <div>
-            <h3>{{theme.name}}</h3>
-            <small *ngIf="game.selectedThemeId === theme.id" class="status equipped">
-              <app-icon name="checkmark-circle"></app-icon> EQUIPPED
-            </small>
-            <small *ngIf="game.selectedThemeId !== theme.id && game.isThemeOwned(theme.id)" class="status">
-              OWNED • TAP TO EQUIP
-            </small>
-            <small *ngIf="!game.isThemeOwned(theme.id)" class="status">
-              <app-icon name="lock-closed"></app-icon> {{theme.price}} COINS
-            </small>
-          </div>
+        <button class="theme-equip-btn" *ngIf="game.isThemeOwned(theme.id)" (click)="buyTheme(theme.id)">
+          {{game.selectedThemeId === theme.id ? 'IN USE' : 'EQUIP'}}
+        </button>
 
-          <button class="theme-action" *ngIf="game.isThemeOwned(theme.id)" (click)="buyTheme(theme.id)">
-            {{game.selectedThemeId === theme.id ? 'EQUIPPED' : 'EQUIP'}}
+        <div class="theme-unlock-actions" *ngIf="!game.isThemeOwned(theme.id)">
+          <button class="theme-watch-btn"
+            [disabled]="!rewardAd.canWatch"
+            (click)="watchAdForTheme(theme.id)">
+            <app-icon name="play-circle"></app-icon>
+            <span *ngIf="rewardAd.canWatch">FREE UNLOCK</span>
+            <span *ngIf="!rewardAd.canWatch">{{ formatCooldown() }}</span>
           </button>
-
-          <div class="theme-unlock" *ngIf="!game.isThemeOwned(theme.id)">
-            <button class="theme-watch"
-              [disabled]="!rewardAd.canWatch"
-              (click)="watchAdForTheme(theme.id)">
-              <app-icon name="play-circle"></app-icon>
-              <span *ngIf="rewardAd.canWatch">WATCH AD</span>
-              <span *ngIf="!rewardAd.canWatch">{{ formatCooldown() }}</span>
-            </button>
-            <button class="theme-action"
-              [disabled]="!isAffordable(theme.id)"
-              (click)="buyTheme(theme.id)">
-              BUY • {{theme.price}}
-            </button>
-          </div>
+          <button class="theme-buy-btn"
+            [disabled]="!isAffordable(theme.id)"
+            (click)="buyTheme(theme.id)">
+            BUY • {{theme.price}}
+          </button>
         </div>
-      </article>
-    </section>
+      </div>
+    </article>
+  </section>
 
-    <section class="shop-tip card">
-      <strong>🏆 Earn more coins</strong>
-      <p>Win against the computer for 10 coins, complete a rewarded video for 100 coins, or watch a video right here to unlock a style for free.</p>
-    </section>
-  </main>
+  <section class="shop-tip-card card">
+    <div class="tip-icon">💡</div>
+    <div class="tip-content">
+      <strong>How to get more coins</strong>
+      <p>Win computer matches for 10 coins, complete the daily challenge for 25 coins, or watch rewarded videos on the home screen for 100 coins.</p>
+    </div>
+  </section>
+</main>
 
-  <app-rewarded-video-overlay
-    title="WATCH TO UNLOCK THIS STYLE"
-    rewardLabel="🔓 UNLOCK"
-    (completed)="onAdCompleted()"></app-rewarded-video-overlay>
+<app-rewarded-video-overlay
+  title="WATCH TO UNLOCK THIS STYLE"
+  rewardLabel="🔓 UNLOCK"
+  (completed)="onAdCompleted()"></app-rewarded-video-overlay>

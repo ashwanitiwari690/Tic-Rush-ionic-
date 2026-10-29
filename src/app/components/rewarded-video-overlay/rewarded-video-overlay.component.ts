@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 import { RewardAdService } from '../../services/reward-ad.service';
-import { AudioService } from '../../services/audio.service';
 
 @Component({
   selector: 'app-rewarded-video-overlay',
@@ -17,7 +16,7 @@ export class RewardedVideoOverlayComponent {
   /** Fires once, right after the video finishes and the reward has been marked complete. */
   @Output() completed = new EventEmitter<void>();
 
-  constructor(public rewardAd: RewardAdService, private audio: AudioService) {}
+  constructor(public rewardAd: RewardAdService) {}
 
   onVideoTimeUpdate(event: Event): void {
     const video = event.target as HTMLVideoElement;
@@ -31,6 +30,5 @@ export class RewardedVideoOverlayComponent {
 
   cancelRewardedAd(): void {
     this.rewardAd.cancelWatch();
-    this.audio.setMusic(true);
   }
 }

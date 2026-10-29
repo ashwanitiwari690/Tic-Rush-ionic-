@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AudioService } from './audio.service';
 import { AdmobService } from './admob.service';
 
 export const REWARDED_AD_COOLDOWN_MS = 2 * 60 * 60 * 1000;
@@ -20,7 +19,7 @@ export class RewardAdService {
   message = '';
   private completed = false;
 
-  constructor(private audio: AudioService, private admob: AdmobService) {}
+  constructor(private admob: AdmobService) {}
 
   get lastRewardAt(): number {
     const current = Number(localStorage.getItem(this.key));
@@ -60,17 +59,10 @@ export class RewardAdService {
    * Starts watching a rewarded video. On native platforms this always shows
    * a real AdMob rewarded ad and awaits AdMob's confirmed-reward callback
    * before resolving. On web, pass `allowSimulatedFallback: true` to open the
-   * local simulated overlay for dev/testing instead of failing outright — a
-   * placement can opt out of that fallback if it should only ever show real ads.
-   *
-   * Returns true once the reward has actually been granted (native), or once
-   * the simulated overlay has started playing (web fallback — completion is
-   * reported later via completeWatch()/consumeCompletedReward()).
+   * local simulated overlay for dev/testing instead of failing outright.
    */
   async startWatch(options: { allowSimulatedFallback?: boolean } = {}): Promise<boolean> {
     if (!this.canWatch || this.isWatching) return false;
-    this.audio.setMusic(false);
-    this.audio.setSound(true);
     this.completed = false;
     this.message = '';
 
@@ -87,12 +79,10 @@ export class RewardAdService {
         }
       } finally {
         this.isWatching = false;
-        this.audio.setMusic(true);
       }
     }
 
     if (options.allowSimulatedFallback === false) {
-      this.audio.setMusic(true);
       return false;
     }
 

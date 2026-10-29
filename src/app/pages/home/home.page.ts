@@ -1,11 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IconComponent } from '../../components/icon/icon.component';
 import { GameService } from '../../services/game.service';
 import { AudioService } from '../../services/audio.service';
 import { RewardAdService, REWARDED_AD_COINS } from '../../services/reward-ad.service';
-import { AdmobService } from '../../services/admob.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +13,7 @@ import { AdmobService } from '../../services/admob.service';
   templateUrl: 'home.page.html',
   styleUrl: 'home.page.css'
 })
-export class HomePage implements OnDestroy {
+export class HomePage implements OnInit, OnDestroy {
   navigating = false;
   rewardNotice = '';
   cooldownTick = 0;
@@ -25,13 +24,36 @@ export class HomePage implements OnDestroy {
     public game: GameService,
     public router: Router,
     private audio: AudioService,
-    public rewardAd: RewardAdService,
-    private admob: AdmobService
-  ) {
-    this.cooldownTimer = window.setInterval(() => {
-      this.cooldownTick++;
-      this.finishRewardedAd();
-    }, 1000);
+    public rewardAd: RewardAdService
+  ) {}
+
+  ngOnInit(): void {
+    this.audio.stopMusic();
+    this.syncCooldownTimer();
+  }
+
+  /** Starts the 1s ticker only when an actual cooldown is ticking down; pauses otherwise to save CPU/battery. */
+  private syncCooldownTimer(): void {
+    if (!this.rewardAd.canWatch) {
+      if (!this.cooldownTimer) {
+        this.cooldownTimer = window.setInterval(() => {
+          this.cooldownTick++;
+          this.finishRewardedAd();
+          if (this.rewardAd.canWatch) {
+            this.stopCooldownTimer();
+          }
+        }, 1000);
+      }
+    } else {
+      this.stopCooldownTimer();
+    }
+  }
+
+  private stopCooldownTimer(): void {
+    if (this.cooldownTimer !== undefined) {
+      window.clearInterval(this.cooldownTimer);
+      this.cooldownTimer = undefined;
+    }
   }
 
   /** Opens mode selection cleanly without disruptive interstitial ads on action buttons. */
@@ -80,12 +102,14 @@ export class HomePage implements OnDestroy {
       return;
     }
     this.finishRewardedAd();
+    this.syncCooldownTimer();
   }
 
   finishRewardedAd(): void {
     if (!this.rewardAd.isWatching && this.rewardAd.message && this.rewardAd.consumeCompletedReward()) {
       this.game.addCoins(REWARDED_AD_COINS);
       this.rewardNotice = `+${REWARDED_AD_COINS} coins added to your wallet`;
+      this.syncCooldownTimer();
     }
   }
 
@@ -95,7 +119,7 @@ export class HomePage implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.cooldownTimer !== undefined) window.clearInterval(this.cooldownTimer);
+    this.stopCooldownTimer();
     if (this.rewardAd.isWatching) this.rewardAd.cancelWatch();
   }
 }

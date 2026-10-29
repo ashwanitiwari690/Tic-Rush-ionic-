@@ -1,51 +1,108 @@
-
 <main class="page game-page">
+  <!-- Top Gamer Navigation Bar -->
   <header class="topbar">
-    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()"><app-icon name="arrow-back"></app-icon></button>
+    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()">
+      <app-icon name="arrow-back"></app-icon>
+    </button>
     <div class="title">TIC RUSH</div>
-    <button class="icon-btn" aria-label="Sound" (click)="toggleSound()"><app-icon [name]="audio.sound?'volume-high':'volume-mute'"></app-icon></button>
+    <button class="icon-btn" aria-label="Sound" (click)="toggleSound()">
+      <app-icon [name]="audio.sound ? 'volume-high' : 'volume-mute'"></app-icon>
+    </button>
   </header>
 
+  <!-- Mode Line with Level/Day Title & Coin Pill -->
   <div class="mode-line">
-    <div>
-      <span class="eyebrow">{{game.mode==='computer'?'VS COMPUTER':game.mode==='team'?'2 PLAYER TEAM':game.mode==='survival'?'SURVIVAL LADDER':'DAILY CHALLENGE'}}</span>
-      <h1 *ngIf="game.mode==='computer' || game.mode==='team'">LEVEL {{game.level}}</h1>
-      <h1 *ngIf="game.mode==='survival'">STREAK {{game.survivalStreak}}</h1>
-      <h1 *ngIf="game.mode==='daily'">DAY {{game.dailyStreak + 1}}</h1>
+    <div class="mode-info">
+      <span class="eyebrow">
+        <span class="mode-dot"></span>
+        {{game.mode==='computer' ? 'VS COMPUTER' : game.mode==='team' ? '2 PLAYER TEAM' : game.mode==='survival' ? 'SURVIVAL LADDER' : 'DAILY CHALLENGE'}}
+      </span>
+      <h1 *ngIf="game.mode==='computer' || game.mode==='team'">LEVEL <span class="num-highlight">{{game.level}}</span></h1>
+      <h1 *ngIf="game.mode==='survival'">STREAK <span class="num-highlight">{{game.survivalStreak}}</span></h1>
+      <h1 *ngIf="game.mode==='daily'">DAY <span class="num-highlight">{{game.dailyStreak + 1}}</span></h1>
     </div>
-    <div class="coin-pill">🪙 {{game.coins}}</div>
+    <div class="coin-pill">
+      <span class="coin-icon">🪙</span>
+      <span class="coin-val">{{game.coins | number}}</span>
+    </div>
   </div>
 
-  <section class="players">
-    <div class="player-card" [class.active]="game.current==='X' && !game.winner">
-      <span class="mark x {{game.selectedTheme.className}}">{{game.selectedTheme.x}}</span><div><strong>PLAYER 1</strong><small>{{game.mode==='team'?'X PLAYER':'YOU'}}</small></div>
+  <!-- Players Arena Bar -->
+  <section class="players-arena">
+    <div class="player-card" [class.active]="game.current==='X' && !game.winner" [class.winner]="game.winner==='X'">
+      <div class="mark-box x {{game.selectedTheme.className}}">
+        <span>{{game.selectedTheme.x}}</span>
+      </div>
+      <div class="player-details">
+        <strong>PLAYER 1</strong>
+        <small>{{game.mode==='team' ? 'X PLAYER' : 'YOU'}}</small>
+      </div>
+      <div class="turn-tag" *ngIf="game.current==='X' && !game.winner">
+        <span class="pulse-dot"></span>
+        <span class="turn-tag-text">TURN</span>
+      </div>
     </div>
-    <div class="vs">VS</div>
-    <div class="player-card" [class.active]="game.current==='O' && !game.winner">
-      <span class="mark o {{game.selectedTheme.className}}">{{game.selectedTheme.o}}</span><div><strong>{{game.mode==='team'?'PLAYER 2':'AI'}}</strong><small>{{game.mode==='team'?'O PLAYER':game.difficulty.toUpperCase()}}</small></div>
+
+    <div class="vs-badge">VS</div>
+
+    <div class="player-card" [class.active]="game.current==='O' && !game.winner" [class.winner]="game.winner==='O'">
+      <div class="mark-box o {{game.selectedTheme.className}}">
+        <span>{{game.selectedTheme.o}}</span>
+      </div>
+      <div class="player-details">
+        <strong>{{game.mode==='team' ? 'PLAYER 2' : 'AI BOT'}}</strong>
+        <small>{{game.mode==='team' ? 'O PLAYER' : (game.difficulty | uppercase)}}</small>
+      </div>
+      <div class="turn-tag" *ngIf="game.current==='O' && !game.winner">
+        <span class="pulse-dot"></span>
+        <span class="turn-tag-text">TURN</span>
+      </div>
     </div>
   </section>
 
-  <section class="turn card" [class.finished]="!!game.winner">
+  <!-- Turn Status Pill -->
+  <section class="turn-status card" [class.turn-finished]="!!game.winner">
     <ng-container *ngIf="!game.winner">
-      <span class="turn-dot"></span>
-      {{game.busy ? 'AI is thinking…' : game.mode==='team' ? (game.current==='X' ? 'Player 1 turn' : 'Player 2 turn') : 'Your turn'}}
+      <span class="turn-status-dot" [class.ai-busy]="game.busy"></span>
+      <span class="turn-status-text">
+        {{game.busy ? 'AI is calculating move…' : game.mode==='team' ? (game.current==='X' ? "Player 1's Turn" : "Player 2's Turn") : 'Your Turn • Tap an empty square'}}
+      </span>
     </ng-container>
     <ng-container *ngIf="game.winner">
-      <strong *ngIf="game.winner==='X'">🎉 {{game.mode==='team' ? 'PLAYER 1 WINS' : 'YOU WIN!'}} <b *ngIf="game.mode==='computer'">+10 COINS</b></strong>
-      <strong *ngIf="game.winner==='O'">⚡ {{game.mode==='team' ? 'PLAYER 2 WINS' : 'AI WINS'}}</strong>
-      <strong *ngIf="game.winner==='draw'">🤝 PERFECT DRAW</strong>
+      <strong *ngIf="game.winner==='X'" class="win-announcement">
+        🎉 {{game.mode==='team' ? 'PLAYER 1 WINS!' : 'YOU WON!'}} <span *ngIf="game.mode==='computer'" class="coin-gain">+10 COINS</span>
+      </strong>
+      <strong *ngIf="game.winner==='O'" class="lose-announcement">
+        ⚡ {{game.mode==='team' ? 'PLAYER 2 WINS!' : 'AI WINS THIS ROUND'}}
+      </strong>
+      <strong *ngIf="game.winner==='draw'" class="draw-announcement">
+        🤝 TIE GAME • EQUAL STRATEGY
+      </strong>
     </ng-container>
   </section>
 
-  <section class="board-wrap">
+  <!-- Game Board Frame -->
+  <section class="board-frame">
+    <div class="board-glow"></div>
     <div class="board" [class.locked]="game.busy || !!game.winner">
-      <button *ngFor="let cell of game.board; let i=index"
-        class="cell" [class.x]="cell==='X'" [class.o]="cell==='O'" [class.theme-classic]="game.selectedTheme.id==='classic'" [class.theme-bolt]="game.selectedTheme.id==='bolt'" [class.theme-gem]="game.selectedTheme.id==='gem'" [class.theme-flame]="game.selectedTheme.id==='flame'" [class.theme-royal]="game.selectedTheme.id==='royal'" [class.last]="i===game.lastMove" [class.winning]="game.winningLine.includes(i)"
-        [attr.aria-label]="'Cell '+(i+1)" (click)="move(i)">
-        <span *ngIf="cell">{{cell === 'X' ? game.selectedTheme.x : game.selectedTheme.o}}</span>
+      <button *ngFor="let cell of game.board; let i=index; trackBy: trackByIndex"
+        class="cell"
+        [class.x]="cell==='X'"
+        [class.o]="cell==='O'"
+        [class.theme-classic]="game.selectedTheme.id==='classic'"
+        [class.theme-bolt]="game.selectedTheme.id==='bolt'"
+        [class.theme-gem]="game.selectedTheme.id==='gem'"
+        [class.theme-flame]="game.selectedTheme.id==='flame'"
+        [class.theme-royal]="game.selectedTheme.id==='royal'"
+        [class.last]="i===game.lastMove"
+        [class.winning]="game.winningLine.includes(i)"
+        [attr.aria-label]="'Cell '+(i+1)"
+        (click)="move(i)">
+        <span class="cell-mark" *ngIf="cell">{{cell === 'X' ? game.selectedTheme.x : game.selectedTheme.o}}</span>
+        <span class="cell-target" *ngIf="!cell"></span>
       </button>
-      <div *ngIf="game.winningLine.length" class="win-line"
+
+      <div *ngIf="game.winningLine.length" class="laser-win-line"
         [class.row-1]="game.winningLineType === 'row-1'"
         [class.row-2]="game.winningLineType === 'row-2'"
         [class.row-3]="game.winningLineType === 'row-3'"
@@ -53,30 +110,71 @@
         [class.col-2]="game.winningLineType === 'col-2'"
         [class.col-3]="game.winningLineType === 'col-3'"
         [class.diag-main]="game.winningLineType === 'diag-main'"
-        [class.diag-cross]="game.winningLineType === 'diag-cross'"></div>
+        [class.diag-cross]="game.winningLineType === 'diag-cross'">
+      </div>
     </div>
   </section>
 
-  <div class="reward-banner" *ngIf="!game.winner && game.mode==='computer'">
-    <span>🏆</span><div><strong>WIN THE ROUND</strong><small>Beat the AI and earn <b>10 coins</b></small></div>
-  </div>
-  <div class="reward-banner team-banner" *ngIf="!game.winner && game.mode==='team'">
-    <span>👥</span><div><strong>FRIEND MATCH</strong><small>Pass the phone after every move • No coins</small></div>
-  </div>
-  <div class="reward-banner survival-banner" *ngIf="!game.winner && game.mode==='survival'">
-    <span>🔥</span><div><strong>STREAK {{game.survivalStreak}}</strong><small>{{game.difficulty | uppercase}} AI • Win to climb • One loss ends the run</small></div>
-  </div>
-  <div class="reward-banner daily-banner" *ngIf="!game.winner && game.mode==='daily'">
-    <span>📅</span><div><strong>WIN TODAY'S BOARD</strong><small>Beat the AI and earn <b>+25 coins</b></small></div>
+  <!-- Live Mode Info Banners -->
+  <div class="game-info-banner" *ngIf="!game.winner && game.mode==='computer'">
+    <div class="banner-badge">🏆</div>
+    <div class="banner-text">
+      <strong>WIN TO LEVEL UP</strong>
+      <small>Beat the computer to earn <b class="gold-text">+10 coins</b> into your wallet</small>
+    </div>
   </div>
 
-  <section class="result card" *ngIf="game.winner">
-    <div class="result-badge">{{game.winner==='X'?'🏆':game.winner==='draw'?'🤝':'⚡'}}</div>
-    <div class="result-copy"><strong>{{resultTitle()}}</strong><small>{{resultSubtitle()}}</small></div>
-    <button class="again" (click)="reset()">{{resultButtonLabel()}}</button>
+  <div class="game-info-banner team-style" *ngIf="!game.winner && game.mode==='team'">
+    <div class="banner-badge">👥</div>
+    <div class="banner-text">
+      <strong>2-PLAYER PASS &amp; PLAY</strong>
+      <small>Take turns on this device • Pure head-to-head tactical fun</small>
+    </div>
+  </div>
+
+  <div class="game-info-banner survival-style" *ngIf="!game.winner && game.mode==='survival'">
+    <div class="banner-badge">🔥</div>
+    <div class="banner-text">
+      <strong>SURVIVAL STREAK: {{game.survivalStreak}}</strong>
+      <small>{{game.difficulty | uppercase}} Bot • Win to advance • One loss breaks streak</small>
+    </div>
+  </div>
+
+  <div class="game-info-banner daily-style" *ngIf="!game.winner && game.mode==='daily'">
+    <div class="banner-badge">🗓️</div>
+    <div class="banner-text">
+      <strong>TODAY'S SPECIAL BOARD</strong>
+      <small>Outsmart the AI today to claim <b class="gold-text">+25 coins</b></small>
+    </div>
+  </div>
+
+  <!-- End of Game Result Action Card -->
+  <section class="game-result-card card" *ngIf="game.winner">
+    <div class="result-icon-box" [class.win-icon]="game.winner==='X'" [class.lose-icon]="game.winner==='O'">
+      {{game.winner==='X' ? '🏆' : game.winner==='draw' ? '🤝' : '⚡'}}
+    </div>
+    <div class="result-meta">
+      <strong>{{resultTitle()}}</strong>
+      <small>{{resultSubtitle()}}</small>
+    </div>
+    <button class="btn-3d result-action-btn" (click)="reset()">
+      {{resultButtonLabel()}}
+    </button>
   </section>
 
-  <button class="switch" *ngIf="game.mode==='computer' || game.mode==='team'" (click)="switchMode()">SWITCH MODE</button>
-  <button class="switch" *ngIf="game.mode==='survival'" [disabled]="navigating" (click)="endRun()">END RUN</button>
-  <button class="switch" *ngIf="game.mode==='daily'" [disabled]="navigating" (click)="back()">BACK TO HOME</button>
+  <!-- Navigation Action Buttons -->
+  <div class="game-footer-actions">
+    <button class="action-btn" *ngIf="game.mode==='computer' || game.mode==='team'" (click)="switchMode()">
+      <app-icon name="swap-horizontal"></app-icon>
+      <span>SWITCH MODE</span>
+    </button>
+    <button class="action-btn" *ngIf="game.mode==='survival'" [disabled]="navigating" (click)="endRun()">
+      <app-icon name="exit-outline"></app-icon>
+      <span>END RUN &amp; RETURN</span>
+    </button>
+    <button class="action-btn" *ngIf="game.mode==='daily'" [disabled]="navigating" (click)="back()">
+      <app-icon name="home-outline"></app-icon>
+      <span>BACK TO HOME</span>
+    </button>
+  </div>
 </main>

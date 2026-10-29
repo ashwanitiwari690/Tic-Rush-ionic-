@@ -11,6 +11,31 @@ export class AudioService {
   private sfxGain?: GainNode;
   private timer?: number;
   private step = 0;
+  private wasMusicPlayingBeforeHide = false;
+
+  constructor() {
+    if (typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          if (this.timer) {
+            this.wasMusicPlayingBeforeHide = true;
+            this.stopMusic();
+          }
+          if (this.ctx && this.ctx.state === 'running') {
+            void this.ctx.suspend();
+          }
+        } else {
+          if (this.ctx && this.ctx.state === 'suspended') {
+            void this.ctx.resume();
+          }
+          if (this.wasMusicPlayingBeforeHide && this.music) {
+            this.wasMusicPlayingBeforeHide = false;
+            this.startMusic();
+          }
+        }
+      });
+    }
+  }
 
   private readBool(key: string, fallback: boolean): boolean {
     const value = localStorage.getItem(key);
@@ -24,7 +49,8 @@ export class AudioService {
 
   private audioContext(): AudioContext {
     if (!this.ctx) {
-      this.ctx = new AudioContext();
+      const AudioCtxClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      this.ctx = new AudioCtxClass();
       this.musicGain = this.ctx.createGain();
       this.sfxGain = this.ctx.createGain();
       this.musicGain.gain.value = this.volume;
@@ -80,8 +106,10 @@ export class AudioService {
   }
 
   stopMusic() {
-    if (this.timer) window.clearInterval(this.timer);
-    this.timer = undefined;
+    if (this.timer) {
+      window.clearInterval(this.timer);
+      this.timer = undefined;
+    }
     this.step = 0;
   }
 
@@ -137,7 +165,17 @@ export class AudioService {
     gain.gain.exponentialRampToValueAtTime(Math.max(0.001, level), now + 0.008);
     gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
-    osc.connect(gain).connect(target);
+    osc.connect(gain);
+    gain.connect(target);
+
+    // Explicit node disconnection on audio end to ensure Web Audio graph garbage collection
+    osc.onended = () => {
+      try {
+        osc.disconnect();
+        gain.disconnect();
+      } catch {}
+    };
+
     osc.start(now);
     osc.stop(now + duration + 0.03);
   }

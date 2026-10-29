@@ -1,38 +1,71 @@
-
 <main class="page select-mode">
   <div class="topbar">
-    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()"><app-icon name="arrow-back"></app-icon></button>
+    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()">
+      <app-icon name="arrow-back"></app-icon>
+    </button>
     <div class="title">SELECT MODE</div>
-    <span></span>
+    <div style="width: 44px;"></div>
   </div>
 
-  <section class="hero card">
-    <div class="hero-title"><span class="pulse-dot"></span><span>CHOOSE YOUR BATTLE</span></div>
-    <h2>Ready for a quick win?</h2>
-    <p>Beat the computer to earn <b>10 coins</b> and level up. Play together with a friend for free.</p>
+  <section class="battle-hero card">
+    <div class="hero-tag">
+      <span class="pulse-dot"></span>
+      <span>CHOOSE YOUR ARENA</span>
+    </div>
+    <h2>Pick Your Game Style</h2>
+    <p>Earn coins by beating the AI, play alongside friends locally, or test your endurance in Survival Mode.</p>
 
-    <div class="mode-grid">
-      <button class="mode computer" [disabled]="navigating" (click)="go('computer')">
-        <div class="mode-top"><div class="mode-icon"><app-icon name="hardware-chip-outline"></app-icon></div><span class="reward">+10 🪙</span></div>
-        <strong>VS COMPUTER</strong><small>Challenge the AI • Coins on wins</small>
-        <span class="play-label">CHOOSE BOARD <app-icon name="arrow-forward-circle"></app-icon></span>
+    <div class="modes-container">
+      <button class="mode-card card computer-mode" [disabled]="navigating" (click)="go('computer')">
+        <div class="mode-card-header">
+          <div class="mode-icon-box">
+            <app-icon name="hardware-chip-outline"></app-icon>
+          </div>
+          <span class="reward-tag">+10 🪙</span>
+        </div>
+        <div class="mode-card-body">
+          <strong>VS COMPUTER</strong>
+          <small>Challenge the adaptive AI • Level up and collect coins</small>
+        </div>
+        <div class="mode-card-footer">
+          <span>ENTER ARENA</span>
+          <app-icon name="arrow-forward-circle"></app-icon>
+        </div>
       </button>
 
-      <button class="mode team" [disabled]="navigating" (click)="go('team')">
-        <div class="mode-top"><div class="mode-icon"><app-icon name="people-outline"></app-icon></div><span class="reward free">FREE</span></div>
-        <strong>2 PLAYER TEAM</strong><small>Pass & play • No coins</small>
-        <span class="play-label">CHOOSE BOARD <app-icon name="arrow-forward-circle"></app-icon></span>
+      <button class="mode-card card team-mode" [disabled]="navigating" (click)="go('team')">
+        <div class="mode-card-header">
+          <div class="mode-icon-box">
+            <app-icon name="people-outline"></app-icon>
+          </div>
+          <span class="free-tag">PASS &amp; PLAY</span>
+        </div>
+        <div class="mode-card-body">
+          <strong>2 PLAYER TEAM</strong>
+          <small>Pass the phone with a friend • Instant offline showdown</small>
+        </div>
+        <div class="mode-card-footer">
+          <span>LOCAL MATCH</span>
+          <app-icon name="arrow-forward-circle"></app-icon>
+        </div>
+      </button>
+
+      <button class="mode-card card survival-mode" [disabled]="navigating" (click)="go('survival')">
+        <div class="mode-card-header">
+          <div class="mode-icon-box">
+            <app-icon name="flame"></app-icon>
+          </div>
+          <span class="streak-tag">STREAK: {{game.survivalStreak}}</span>
+        </div>
+        <div class="mode-card-body">
+          <strong>SURVIVAL LADDER</strong>
+          <small>Climb an escalating ladder against the AI • A single loss ends your streak</small>
+        </div>
+        <div class="mode-card-footer">
+          <span>START SURVIVAL</span>
+          <app-icon name="arrow-forward-circle"></app-icon>
+        </div>
       </button>
     </div>
-
-    <button class="mode survival" [disabled]="navigating" (click)="go('survival')">
-      <div class="mode-top">
-        <div class="mode-icon"><app-icon name="flame"></app-icon></div>
-        <span class="streak-pill">STREAK: {{game.survivalStreak}}</span>
-      </div>
-      <strong>SURVIVAL LADDER</strong>
-      <small>Win streak vs the AI • Board gets harder as you climb • One loss ends it</small>
-      <span class="play-label">START RUN <app-icon name="arrow-forward-circle"></app-icon></span>
-    </button>
   </section>
 </main>

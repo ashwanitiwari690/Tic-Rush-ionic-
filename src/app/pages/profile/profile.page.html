@@ -1,53 +1,94 @@
-    <main class="page profile">
-        <div class="topbar"><button class="icon-btn" [disabled]="navigating" (click)="back()"><app-icon
-                    name="arrow-back"></app-icon></button>
-            <div class="title">PROFILE</div><span></span>
-        </div>
-        <div class="identity card">
-            <div class="avatar"><app-icon name="person-circle-outline"></app-icon></div>
-            <div>
-                <div class="name">Player One</div>
-                <div class="level">LEVEL {{game.level}}</div>
-                <div class="xp"><span></span></div><small>Keep winning against the computer to level up.</small>
-            </div>
-        </div>
-        <div class="stat-grid">
-            <div class="card"><b>{{game.stats.wins}}</b><span>WINS</span></div>
-            <div class="card"><b>{{game.stats.games}}</b><span>GAMES</span></div>
-            <div class="card"><b>{{accuracy}}%</b><span>ACCURACY</span></div>
-            <div class="card"><b>{{game.stats.bestLevel}}</b><span>BEST LEVEL</span></div>
-        </div>
-        <section class="wallet card">
-            <div class="wallet-head">
-                <div><span>COIN WALLET</span><strong>🪙 {{game.coins}}</strong></div><app-icon
-                    name="wallet-outline"></app-icon>
-            </div>
-            <p>Earn 10 coins for every computer win. Team games never add coins.</p>
-        </section>
+<main class="page profile">
+  <div class="topbar">
+    <button class="icon-btn" aria-label="Back" [disabled]="navigating" (click)="back()">
+      <app-icon name="arrow-back"></app-icon>
+    </button>
+    <div class="title">PLAYER PROFILE</div>
+    <div style="width: 44px;"></div>
+  </div>
 
-        <p class="withdraw-success" *ngIf="successMessage">{{successMessage}}</p>
+  <section class="identity-card card">
+    <div class="avatar-wrapper">
+      <div class="avatar">
+        <app-icon name="person-circle-outline"></app-icon>
+      </div>
+      <span class="avatar-lvl">LV {{game.level}}</span>
+    </div>
+    <div class="identity-info">
+      <div class="gamer-name">Player One</div>
+      <div class="gamer-title">Arcade Master • Challenger</div>
+      <div class="xp-bar-track">
+        <span class="xp-bar-fill"></span>
+      </div>
+      <small class="xp-caption">Win computer rounds to level up your status.</small>
+    </div>
+  </section>
 
-        <section class="withdraw card" *ngIf="canWithdraw">
-            <div class="withdraw-head">
-                <app-icon name="wallet-outline"></app-icon>
-                <div>
-                    <strong>Available for Redemption</strong>
-                    <small>{{game.coins | number}} coins</small>
-                </div>
-            </div>
+  <section class="stat-matrix">
+    <div class="stat-card card win-stat">
+      <div class="stat-icon-mini">🏆</div>
+      <b class="stat-value">{{game.stats.wins}}</b>
+      <span class="stat-label">TOTAL WINS</span>
+    </div>
+    <div class="stat-card card game-stat">
+      <div class="stat-icon-mini">🎮</div>
+      <b class="stat-value">{{game.stats.games}}</b>
+      <span class="stat-label">GAMES PLAYED</span>
+    </div>
+    <div class="stat-card card acc-stat">
+      <div class="stat-icon-mini">🎯</div>
+      <b class="stat-value">{{accuracy}}%</b>
+      <span class="stat-label">WIN ACCURACY</span>
+    </div>
+    <div class="stat-card card lvl-stat">
+      <div class="stat-icon-mini">⚡</div>
+      <b class="stat-value">{{game.stats.bestLevel}}</b>
+      <span class="stat-label">PEAK LEVEL</span>
+    </div>
+  </section>
 
-            <button class="withdraw-btn" *ngIf="!showWithdrawForm" (click)="openWithdrawForm()">WITHDRAW COINS</button>
+  <section class="wallet-card card">
+    <div class="wallet-header">
+      <div>
+        <span class="wallet-label">COIN BALANCE</span>
+        <strong class="wallet-balance">🪙 {{game.coins | number}}</strong>
+      </div>
+      <div class="wallet-icon-box">
+        <app-icon name="wallet-outline"></app-icon>
+      </div>
+    </div>
+    <p class="wallet-desc">Earn 10 coins for every computer victory. Coins can be used to unlock custom symbol skins in the shop.</p>
+  </section>
 
-            <div class="withdraw-form" *ngIf="showWithdrawForm">
-                <label>Mobile number for payout</label>
-                <input inputmode="numeric" maxlength="10" placeholder="10 digit number" [value]="mobileNumber" (input)="onMobileInput($event)" [disabled]="submitting">
+  <p class="withdraw-success" *ngIf="successMessage">{{successMessage}}</p>
 
-                <p class="withdraw-error" *ngIf="errorMessage">{{errorMessage}}</p>
+  <section class="withdraw-card card" *ngIf="canWithdraw">
+    <div class="withdraw-head">
+      <div class="withdraw-icon-box">
+        <app-icon name="wallet-outline"></app-icon>
+      </div>
+      <div>
+        <strong>Available for Payout</strong>
+        <small>{{game.coins | number}} Coins ready for conversion</small>
+      </div>
+    </div>
 
-                <div class="withdraw-actions">
-                    <button class="ghost" (click)="closeWithdrawForm()" [disabled]="submitting">CANCEL</button>
-                    <button class="primary" (click)="confirmWithdraw()" [disabled]="!canSubmit">{{ submitting ? 'PROCESSING…' : 'CONFIRM WITHDRAWAL' }}</button>
-                </div>
-            </div>
-        </section>
-    </main>
+    <button class="withdraw-trigger-btn" *ngIf="!showWithdrawForm" (click)="openWithdrawForm()">
+      WITHDRAW COINS
+    </button>
+
+    <div class="withdraw-form" *ngIf="showWithdrawForm">
+      <label>Mobile Number for Payout</label>
+      <input inputmode="numeric" maxlength="10" placeholder="10-digit mobile number" [value]="mobileNumber" (input)="onMobileInput($event)" [disabled]="submitting">
+
+      <p class="withdraw-error" *ngIf="errorMessage">{{errorMessage}}</p>
+
+      <div class="withdraw-actions">
+        <button class="ghost-btn" (click)="closeWithdrawForm()" [disabled]="submitting">CANCEL</button>
+        <button class="primary-btn" (click)="confirmWithdraw()" [disabled]="!canSubmit">
+          {{ submitting ? 'PROCESSING…' : 'CONFIRM WITHDRAWAL' }}
+        </button>
+      </div>
+    </div>
+  </section>
+</main>

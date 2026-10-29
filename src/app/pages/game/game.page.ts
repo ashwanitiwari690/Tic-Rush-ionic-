@@ -18,6 +18,10 @@ export class GamePage {
 
   constructor(public game: GameService, public audio: AudioService, private router: Router, private admob: AdmobService) {}
 
+  trackByIndex(index: number): number {
+    return index;
+  }
+
   move(i: number) {
     this.audio.startMusic();
     const result = this.game.play(i);

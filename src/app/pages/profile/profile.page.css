@@ -1,247 +1,331 @@
 :host {
-    display: block;
-    height: 100%;
-    width: 100%;
+  display: block;
+  height: 100%;
+  width: 100%;
 }
 
 .profile {
-    padding-top: calc(18px + env(safe-area-inset-top, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.identity {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 18px
+/* Identity Card */
+.identity-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(20, 28, 64, 0.75) 0%, rgba(10, 15, 36, 0.9) 100%);
+  border: 1px solid rgba(0, 240, 255, 0.22);
+}
+
+.avatar-wrapper {
+  position: relative;
+  flex: none;
 }
 
 .avatar {
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
-    border: 2px solid var(--cyan);
-    display: grid;
-    place-items: center;
-    color: var(--cyan);
-    font-size: 42px;
-    background: #102252
+  width: 66px;
+  height: 66px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1b2654, #0f1636);
+  border: 2px solid rgba(0, 240, 255, 0.4);
+  display: grid;
+  place-items: center;
+  color: var(--cyan);
+  font-size: 38px;
+  box-shadow: 0 6px 18px rgba(0, 240, 255, 0.2);
 }
 
-.name {
-    font-size: 24px;
-    font-weight: 850;
-        color: #ffff;
+.avatar-lvl {
+  position: absolute;
+  bottom: -6px;
+  right: -4px;
+  background: linear-gradient(135deg, #00f0ff, #3b82f6);
+  color: #03081c;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 7px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0, 240, 255, 0.4);
 }
 
-.level {
-    font-size: 11px;
-    color: var(--cyan);
-    font-weight: 900;
-    margin: 4px 0
+.identity-info {
+  flex: 1;
+  min-width: 0;
 }
 
-.xp {
-    height: 8px;
-    background: #1a2c5a;
-    border-radius: 99px;
-    overflow: hidden;
-    margin: 8px 0
+.gamer-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.2px;
 }
 
-.xp span {
-    display: block;
-    width: 42%;
-    height: 100%;
-    background: linear-gradient(90deg, var(--cyan), #7655ff)
+.gamer-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-top: 2px;
 }
 
-.identity small {
-    color: var(--muted);
-    font-size: 11px
+.xp-bar-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin: 10px 0 6px;
 }
 
-.stat-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 12px
+.xp-bar-fill {
+  display: block;
+  width: 58%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cyan) 0%, var(--purple) 100%);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
-.stat-grid .card {
-    text-align: center;
-    padding: 16px
+.xp-caption {
+  display: block;
+  font-size: 10px;
+  color: #94a3b8;
 }
 
-.stat-grid b {
-    display: block;
-    font-size: 24px;
-        color: #ffff;
+/* Stat Matrix */
+.stat-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-.stat-grid span {
-    font-size: 9px;
-    letter-spacing: 1px;
-    color: #9baad0;
-    font-weight: 900
+.stat-card {
+  padding: 16px 14px;
+  text-align: center;
+  border-radius: 18px;
+  background: rgba(18, 25, 54, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
-.wallet {
-    margin-top: 12px;
-    padding: 18px
+.stat-icon-mini {
+  font-size: 16px;
+  line-height: 1;
+  margin-bottom: 2px;
 }
 
-.wallet-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.1;
 }
 
-.wallet-head span {
-    display: block;
-    color: #98a8d2;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 1.2px
+.stat-label {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: var(--muted);
 }
 
-.wallet-head strong {
-    display: block;
-    font-size: 28px;
-    color: #ffd85c;
-    margin-top: 4px
+.win-stat .stat-value { color: #ffd45a; }
+.game-stat .stat-value { color: var(--cyan); }
+.acc-stat .stat-value { color: var(--green); }
+.lvl-stat .stat-value { color: #c4b5fd; }
+
+/* Wallet Card */
+.wallet-card {
+  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(28, 26, 56, 0.75) 0%, rgba(13, 16, 38, 0.85) 100%);
+  border: 1px solid rgba(255, 184, 0, 0.22);
 }
 
-.wallet-head>app-icon {
-    font-size: 35px;
-    color: var(--cyan)
+.wallet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.wallet p {
-    font-size: 12px;
-    margin-bottom: 0;
-    color: #a2a5ae;
+.wallet-label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #ffd45a;
 }
 
-.withdraw {
-    margin-top: 12px;
-    padding: 16px;
+.wallet-balance {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 900;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.wallet-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: rgba(255, 184, 0, 0.12);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  color: #ffd45a;
+}
+
+.wallet-desc {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* Withdraw Card */
+.withdraw-card {
+  padding: 16px 18px;
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  background: linear-gradient(145deg, rgba(16, 26, 62, 0.8) 0%, rgba(9, 14, 34, 0.9) 100%);
 }
 
 .withdraw-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
-.withdraw-head app-icon {
-    color: var(--cyan);
-    font-size: 24px;
-}
-
-.withdraw-head strong,
-.withdraw-head small {
-    display: block;
+.withdraw-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  display: grid;
+  place-items: center;
+  color: var(--cyan);
+  font-size: 20px;
 }
 
 .withdraw-head strong {
-    color: #fff;
+  display: block;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
 }
 
 .withdraw-head small {
-    color: var(--muted);
-    font-size: 11px;
-    margin-top: 3px;
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
 }
 
-.withdraw-btn {
-    width: 100%;
-    border: 0;
-    border-radius: 11px;
-    padding: 12px;
-    background: linear-gradient(90deg, #20dfff, #5e68ff);
-    color: #fff;
-    font-weight: 900;
+.withdraw-trigger-btn {
+  width: 100%;
+  height: 46px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #00f0ff 0%, #3b82f6 100%);
+  color: #03081c;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 14px rgba(0, 240, 255, 0.35);
+  transition: transform 0.12s ease;
+}
+
+.withdraw-trigger-btn:active {
+  transform: scale(0.98);
 }
 
 .withdraw-form label {
-    display: block;
-    color: #94a8d7;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    margin: 12px 0 6px;
+  display: block;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: var(--cyan);
+  margin-bottom: 8px;
 }
 
 .withdraw-form input {
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #3e5c9f;
-    border-radius: 11px;
-    background: #0b1534;
-    color: #fff;
-    padding: 12px;
-    outline: none;
-    font-size: 14px;
+  width: 100%;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(6, 10, 28, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease;
 }
 
 .withdraw-form input:focus {
-    border-color: var(--cyan);
-}
-
-.hint {
-    display: block;
-    color: var(--muted);
-    font-size: 10px;
-    margin-top: 4px;
+  border-color: var(--cyan);
 }
 
 .withdraw-error {
-    color: #ff6b6b;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 800;
-    margin: 10px 0 0;
+  color: var(--danger);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  margin: 10px 0 0;
 }
 
 .withdraw-success {
-    color: #66efbf;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 800;
-    margin: 12px 0 0;
-    padding: 12px;
-    background: rgba(102, 239, 191, .08);
-    border: 1px solid rgba(102, 239, 191, .35);
-    border-radius: 11px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .withdraw-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
 }
 
-.withdraw-actions button {
-    flex: 1;
-    border: 0;
-    border-radius: 11px;
-    padding: 12px;
-    font-weight: 900;
+.ghost-btn {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
-.withdraw-actions .ghost {
-    background: #0f1b40;
-    color: #aebbd8;
-    border: 1px solid #3e5c9f;
+.primary-btn {
+  flex: 1.5;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00f0ff 0%, #3b82f6 100%);
+  color: #03081c;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
 }
 
-.withdraw-actions .primary {
-    background: linear-gradient(90deg, #20dfff, #5e68ff);
-    color: #fff;
+.primary-btn:disabled, .ghost-btn:disabled {
+  opacity: 0.45;
 }
-
-.withdraw-actions button:disabled {
-    opacity: .45;
-}
-

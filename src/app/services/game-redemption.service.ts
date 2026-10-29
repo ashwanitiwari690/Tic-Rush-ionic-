@@ -8,9 +8,6 @@ const API_BASE_URL = 'https://api.admobility.in';
 /** This game's identifier in the Central backend's game registry. Single source — do not repeat this string elsewhere. */
 export const GAME_CODE = 'TIC_RUSH';
 
-/** Minimum coins required to withdraw (100 coins limit). */
-const FALLBACK_MIN_COINS = 100;
-
 const LAST_MOBILE_KEY = 'tic-rush-last-payout-mobile-v1';
 
 export interface RedemptionRequest {
@@ -123,7 +120,13 @@ export class GameRedemptionService {
 
   /** Starts a new logical redemption attempt and returns its idempotency key. Reuse the same key when retrying this same attempt. */
   beginRequest(): string {
-    this.pendingKey = crypto.randomUUID();
+    try {
+      this.pendingKey = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+        ? crypto.randomUUID()
+        : 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    } catch {
+      this.pendingKey = 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    }
     return this.pendingKey;
   }
 

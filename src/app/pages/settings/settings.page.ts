@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { App } from '@capacitor/app';
 import { IconComponent } from '../../components/icon/icon.component';
@@ -9,13 +9,13 @@ import { GameService } from '../../services/game.service';
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, IconComponent],
+  imports: [CommonModule, IconComponent],
   templateUrl: 'settings.page.html',
   styleUrl: 'settings.page.css'
 })
 export class SettingsPage implements OnInit {
   navigating = false;
-  appVersion = '1.0.3';
+  appVersion = '1.0.4';
   appBuild = '';
 
   constructor(public audio: AudioService, public game: GameService, public router: Router) {}
@@ -32,7 +32,7 @@ export class SettingsPage implements OnInit {
         this.appBuild = info.build;
       }
     } catch {
-      this.appVersion = '1.0.3';
+      this.appVersion = '1.0.4';
     }
   }
 

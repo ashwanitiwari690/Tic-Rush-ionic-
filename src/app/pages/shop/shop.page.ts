@@ -1,8 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IconComponent } from '../../components/icon/icon.component';
-import { GameService, MarkThemeId } from '../../services/game.service';
+import { GameService, MarkTheme, MarkThemeId } from '../../services/game.service';
 import { RewardAdService } from '../../services/reward-ad.service';
 import { RewardedVideoOverlayComponent } from '../../components/rewarded-video-overlay/rewarded-video-overlay.component';
 
@@ -13,14 +13,38 @@ import { RewardedVideoOverlayComponent } from '../../components/rewarded-video-o
   templateUrl: 'shop.page.html',
   styleUrl: 'shop.page.css'
 })
-export class ShopPage implements OnDestroy {
+export class ShopPage implements OnInit, OnDestroy {
   navigating = false;
   cooldownTick = 0;
   private pendingThemeId: MarkThemeId | null = null;
   private cooldownTimer?: number;
 
-  constructor(public game: GameService, public rewardAd: RewardAdService, private router: Router) {
-    this.cooldownTimer = window.setInterval(() => this.cooldownTick++, 1000);
+  constructor(public game: GameService, public rewardAd: RewardAdService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.syncCooldownTimer();
+  }
+
+  private syncCooldownTimer(): void {
+    if (!this.rewardAd.canWatch) {
+      if (!this.cooldownTimer) {
+        this.cooldownTimer = window.setInterval(() => {
+          this.cooldownTick++;
+          if (this.rewardAd.canWatch) {
+            this.stopCooldownTimer();
+          }
+        }, 1000);
+      }
+    } else {
+      this.stopCooldownTimer();
+    }
+  }
+
+  private stopCooldownTimer(): void {
+    if (this.cooldownTimer !== undefined) {
+      window.clearInterval(this.cooldownTimer);
+      this.cooldownTimer = undefined;
+    }
   }
 
   async back(): Promise<void> {
@@ -45,8 +69,12 @@ export class ShopPage implements OnDestroy {
   async watchAdForTheme(id: MarkThemeId): Promise<void> {
     this.pendingThemeId = id;
     const started = await this.rewardAd.startWatch();
-    if (!started) { this.pendingThemeId = null; return; }
+    if (!started) {
+      this.pendingThemeId = null;
+      return;
+    }
     this.onAdCompleted();
+    this.syncCooldownTimer();
   }
 
   onAdCompleted(): void {
@@ -54,6 +82,7 @@ export class ShopPage implements OnDestroy {
     if (this.pendingThemeId) {
       this.game.unlockThemeByAd(this.pendingThemeId);
       this.pendingThemeId = null;
+      this.syncCooldownTimer();
     }
   }
 
@@ -62,8 +91,12 @@ export class ShopPage implements OnDestroy {
     return this.rewardAd.remainingLabel;
   }
 
+  trackByThemeId(_index: number, theme: MarkTheme): string {
+    return theme.id;
+  }
+
   ngOnDestroy(): void {
-    if (this.cooldownTimer !== undefined) window.clearInterval(this.cooldownTimer);
+    this.stopCooldownTimer();
     if (this.rewardAd.isWatching) this.rewardAd.cancelWatch();
   }
 }
